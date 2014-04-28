@@ -1,0 +1,11 @@
+[
+{
+  "modid": "CodeChickenCore",
+  "name": "CodeChicken Core",
+  "description": "Base common code for all chickenbones mods.",
+  "version": "0",
+  "mcversion": "1.7.2",
+  "url": "http://www.minecraftforum.net/topic/909223",
+  "authors": [ "ChickenBones" ]
+}
+]
