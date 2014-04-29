@@ -18,10 +18,10 @@ public class GameDataManipulator
     {
         try {
             f_registryObjects = RegistrySimple.class.getDeclaredField(
-                    new ObfMapping("net/minecraft/util/RegistrySimple", "registryObjects", "Ljava/util/Map;").toRuntime().s_name);
+                    new ObfMapping("net/minecraft/util/RegistrySimple", "field_82596_a", "Ljava/util/Map;").toRuntime().s_name);
             f_registryObjects.setAccessible(true);
             f_underlyingIntegerMap = RegistryNamespaced.class.getDeclaredField(
-                    new ObfMapping("net/minecraft/util/RegistryNamespaced", "underlyingIntegerMap", "Lnet/minecraft/util/ObjectIntIdentityMap;").toRuntime().s_name);
+                    new ObfMapping("net/minecraft/util/RegistryNamespaced", "field_148759_a", "Lnet/minecraft/util/ObjectIntIdentityMap;").toRuntime().s_name);
             f_underlyingIntegerMap.setAccessible(true);
         } catch (Exception e) {
             throw new RuntimeException(e);

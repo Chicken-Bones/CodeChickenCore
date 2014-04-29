@@ -6,10 +6,8 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.Map.Entry;
 
-import javax.swing.JFileChooser;
-
+import codechicken.lib.asm.ASMInit;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
-import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.Launch;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -26,7 +24,6 @@ import codechicken.lib.asm.ASMHelper;
 import codechicken.lib.asm.CC_ClassWriter;
 import codechicken.lib.asm.ObfMapping;
 import codechicken.lib.config.ConfigFile;
-import codechicken.lib.config.ConfigTag;
 import codechicken.obfuscator.IHeirachyEvaluator;
 import codechicken.obfuscator.ObfuscationRun;
 import codechicken.obfuscator.ObfuscationMap.ObfuscationEntry;
@@ -38,6 +35,10 @@ import net.minecraft.launchwrapper.LaunchClassLoader;
 
 public class MCPDeobfuscationTransformer implements IClassTransformer, Opcodes, IHeirachyEvaluator
 {
+    static {
+        ASMInit.init();
+    }
+
     public static class LoadPlugin implements IFMLLoadingPlugin
     {
         @Override

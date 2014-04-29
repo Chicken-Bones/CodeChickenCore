@@ -119,7 +119,7 @@ public class DelegatedTransformer implements IClassTransformer
             {
                 ZipEntry entry = jar.getEntry(dependancy+".class");
                 if(entry == null)
-                    throw new Exception("Dependancy "+dependancy+" not found in jar file "+jarFile.getName());
+                    throw new Exception("Dependency "+dependancy+" not found in jar file "+jarFile.getName());
                 
                 byte[] depbytes = readFully(jar.getInputStream(entry));
                 defineDependancies(depbytes, jar, jarFile, depStack);

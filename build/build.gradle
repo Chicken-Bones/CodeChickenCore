@@ -29,6 +29,7 @@ configFile.withReader {
     prop.load(it)
     project.ext.config = new ConfigSlurper().parse prop
 }
+
 dependencies {
     compile "codechicken:CodeChickenLib:${config.mc_version}-${config.ccl_version}:dev"
 }
@@ -57,11 +58,12 @@ processResources {
     //redo task if any of these properties change
     inputs.property "version", project.version
     inputs.property "mc_version", config.mc_version
+    inputs.property "ccl_version", config.ccl_version
 
     // Replace properties in info files
     from(sourceSets.main.resources.srcDirs) {
         include '*.info'
-        expand 'version':project.version,'mc_version':config.mc_version
+        expand 'version':project.version,'mc_version':config.mc_version,'ccl_version':config.ccl_version
     }
     // Copy everything else
     from(sourceSets.main.resources.srcDirs) {
@@ -69,26 +71,24 @@ processResources {
     }
 }
 
-task sourceJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'src'
-    version = "${project.minecraft.version}-${project.version}"
-}
-
+version = "${project.minecraft.version}-${project.version}"
 def commonManifest = {
     attributes 'FMLCorePlugin': 'codechicken.core.launch.CodeChickenCorePlugin'
 }
 
 jar {
     classifier = 'universal'
-    version = "${project.minecraft.version}-${project.version}"
     manifest commonManifest
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'src'
 }
 
 task devJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'dev'
-    version = "${project.minecraft.version}-${project.version}"
     manifest commonManifest
 }
 

@@ -19,6 +19,10 @@ import static codechicken.lib.asm.InsnComparator.*;
 
 public class TweakTransformer implements IClassTransformer, Opcodes
 {
+    static {
+        ASMInit.init();
+    }
+
     private static ModularASMTransformer transformer = new ModularASMTransformer();
     private static Map<String, ASMBlock> blocks = ASMReader.loadResource("/assets/codechickencore/asm/tweaks.asm");
     public static ConfigTag tweaks;

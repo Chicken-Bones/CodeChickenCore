@@ -17,6 +17,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import codechicken.core.asm.*;
+import codechicken.lib.asm.ASMInit;
 import cpw.mods.fml.relauncher.CoreModManager;
 import net.minecraft.launchwrapper.Launch;
 
