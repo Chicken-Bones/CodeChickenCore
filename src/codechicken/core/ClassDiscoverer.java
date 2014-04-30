@@ -78,9 +78,9 @@ public class ClassDiscoverer
         try {
             Class<?> class1 = Class.forName(classname, true, modClassLoader);
             classes.add(class1);
-        } catch (Exception cnfe) {
+        } catch (Throwable t) {
             System.err.println("Unable to load class: " + classname);
-            cnfe.printStackTrace();
+            t.printStackTrace();
         }
     }
 
