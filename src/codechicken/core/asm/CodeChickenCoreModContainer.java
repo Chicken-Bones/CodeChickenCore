@@ -1,7 +1,6 @@
 package codechicken.core.asm;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,11 +36,9 @@ public class CodeChickenCoreModContainer extends DummyModContainer
     @Override
     public List<ArtifactVersion> getDependants() {
         LinkedList<ArtifactVersion> deps = new LinkedList<ArtifactVersion>();
-        deps.add(VersionParser.parseVersionReference("NotEnoughItems@[0,)"));
-        deps.add(VersionParser.parseVersionReference("EnderStorage@[1.4.3.6,)"));
-        deps.add(VersionParser.parseVersionReference("ChickenChunks@[1.3.3.4,)"));
-        deps.add(VersionParser.parseVersionReference("Translocator@[1.1.0.15,)"));
-        deps.add(VersionParser.parseVersionReference("WR-CBE|Core@[1.4.0.7,)"));
+        if(!getVersion().contains("$")) {
+            deps.add(VersionParser.parseVersionReference("NotEnoughItems@[1.0.0,)"));
+        }
         return deps;
     }
 
