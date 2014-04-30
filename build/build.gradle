@@ -82,7 +82,7 @@ jar {
 }
 
 task sourceJar(type: Jar) {
-    from sourceSets.main.allSource
+    from sourceSets.main.java
     classifier = 'src'
 }
 
