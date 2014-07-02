@@ -45,6 +45,7 @@ public class CCUpdateChecker
                 BufferedReader read = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String ret = read.readLine();
                 read.close();
+                if(ret == null) ret = "";
                 handler.apply(ret);
             } catch (SocketTimeoutException ignored) {}
             catch (UnknownHostException ignored) {}
