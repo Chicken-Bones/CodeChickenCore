@@ -30,7 +30,7 @@ import org.apache.logging.log4j.Logger;
 @TransformerExclusions(value = {"codechicken.core.asm", "codechicken.obfuscator"})
 public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
 {
-    public static final String mcVersion = "[1.7.10]";
+    public static final String mcVersion = "[1.7.2]";
 
     public static File minecraftDir;
     public static String currentMcVersion;
