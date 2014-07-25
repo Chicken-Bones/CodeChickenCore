@@ -11,51 +11,56 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GuiScreenWidget extends GuiScreen implements IGuiActionListener
-{    
+{
     public ArrayList<GuiWidget> widgets = new ArrayList<GuiWidget>();
     public int xSize, ySize, guiTop, guiLeft;
-    
+
     public GuiScreenWidget()
     {
         this(176, 166);
     }
-    
+
     public GuiScreenWidget(int xSize, int ySize)
     {
         super();
         this.xSize = xSize;
         this.ySize = ySize;
     }
-    
+
     @Override
     public void initGui()
     {
         guiTop = (height - ySize) / 2;
         guiLeft = (width - xSize) / 2;
+        if(!widgets.isEmpty())
+            resize();
     }
-    
+
     public void reset()
     {
-        initGui();
         widgets.clear();
+        initGui();
         addWidgets();
+        resize();
     }
-    
+
     @Override
     public void setWorldAndResolution(Minecraft mc, int i, int j)
     {
         boolean init = this.mc == null;
         super.setWorldAndResolution(mc, i, j);
-        if(init)
+        if(init) {
             addWidgets();
+            resize();
+        }
     }
-    
+
     public void add(GuiWidget widget)
     {
         widgets.add(widget);
         widget.onAdded(this);
     }
-    
+
     @Override
     public void drawScreen(int mousex, int mousey, float f)
     {
@@ -66,11 +71,11 @@ public class GuiScreenWidget extends GuiScreen implements IGuiActionListener
         drawForeground();
         GL11.glTranslated(-guiLeft, -guiTop, 0);
     }
-    
+
     public void drawBackground()
     {
     }
-    
+
     public void drawForeground()
     {
     }
@@ -82,7 +87,7 @@ public class GuiScreenWidget extends GuiScreen implements IGuiActionListener
         for(GuiWidget widget : widgets)
             widget.mouseClicked(x-guiLeft, y-guiTop, button);
     }
-    
+
     @Override
     protected void mouseMovedOrUp(int x, int y, int button)
     {
@@ -90,7 +95,7 @@ public class GuiScreenWidget extends GuiScreen implements IGuiActionListener
         for(GuiWidget widget : widgets)
             widget.mouseMovedOrUp(x-guiLeft, y-guiTop, button);
     }
-    
+
     @Override
     protected void mouseClickMove(int x, int y, int button, long time)
     {
@@ -98,7 +103,7 @@ public class GuiScreenWidget extends GuiScreen implements IGuiActionListener
         for(GuiWidget widget : widgets)
             widget.mouseDragged(x-guiLeft, y-guiTop, button, time);
     }
-    
+
     @Override
     public void updateScreen()
     {
@@ -107,13 +112,13 @@ public class GuiScreenWidget extends GuiScreen implements IGuiActionListener
             for(GuiWidget widget : widgets)
                 widget.update();
     }
-    
+
     @Override
     public void keyTyped(char c, int keycode)
     {
         super.keyTyped(c, keycode);
         for(GuiWidget widget : widgets)
-            widget.keyTyped(c, keycode);        
+            widget.keyTyped(c, keycode);
     }
 
     @Override
@@ -132,6 +137,10 @@ public class GuiScreenWidget extends GuiScreen implements IGuiActionListener
 
     @Override
     public void actionPerformed(String ident, Object... params)
+    {
+    }
+
+    public void resize()
     {
     }
 
