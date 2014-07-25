@@ -38,8 +38,8 @@ public class CodeChickenCoreModContainer extends DummyModContainer
     public List<ArtifactVersion> getDependants() {
         LinkedList<ArtifactVersion> deps = new LinkedList<ArtifactVersion>();
         if(!getVersion().contains("$")) {
-            deps.add(VersionParser.parseVersionReference("NotEnoughItems@[1.0.2,)"));
-            deps.add(VersionParser.parseVersionReference("EnderStorage@[1.4.4,)"));
+            deps.add(VersionParser.parseVersionReference("NotEnoughItems@[1.0.3,)"));
+            deps.add(VersionParser.parseVersionReference("EnderStorage@[1.4.5,)"));
         }
         return deps;
     }
