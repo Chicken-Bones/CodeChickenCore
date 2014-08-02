@@ -3,6 +3,7 @@ package codechicken.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.authlib.GameProfile;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.command.CommandHandler;
 import net.minecraft.inventory.Container;
@@ -43,16 +44,18 @@ public class ServerUtils extends CommonUtils
         player.openContainer.addCraftingToCrafters(player);
     }
 
+    public static GameProfile getGameProfile(String username) {
+        return mc().func_152358_ax().func_152655_a(username);
+    }
+
     public static boolean isPlayerOP(String username) {
-        return mc().getConfigurationManager().func_152596_g(getPlayer(username).getGameProfile());
+        GameProfile prof = getGameProfile(username);
+        if(prof == null) return false;
+        return mc().getConfigurationManager().func_152596_g(getGameProfile(username));
     }
 
     public static boolean isPlayerOwner(String username) {
         return mc().isSinglePlayer() && mc().getServerOwner().equalsIgnoreCase(username);
-    }
-
-    public static void registerCommand(ICommand command) {
-        ((CommandHandler) mc().getCommandManager()).registerCommand(command);
     }
 
     public static void sendChatToAll(IChatComponent msg) {
