@@ -4,6 +4,8 @@ import java.io.File;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.FMLInjectionData;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
@@ -38,5 +40,11 @@ public class CommonUtils
             return null;
 
         return child.getPath().substring(parent.getPath().length() + 1);
+    }
+
+    public static void registerHandledEntity(Class<? extends Entity> entityClass, String identifier)
+    {
+        EntityList.classToStringMapping.put(entityClass, identifier);
+        EntityList.stringToClassMapping.put(identifier, entityClass);
     }
 }
