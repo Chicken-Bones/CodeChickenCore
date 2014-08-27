@@ -9,11 +9,20 @@ import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.ModMetadata;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import static org.lwjgl.opengl.GL11.*;
+import javax.imageio.ImageIO;
 
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.glReadPixels;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,6 +39,24 @@ public class GuiModListScroll
             CodeChickenCorePlugin.logger.error("Unable to do mod description scrolling due to lack of stencil buffer");
         else
             scrollMods.add(mod);
+    }
+
+    private static void screenshotStencil(int x) {
+        Dimension d = GuiDraw.displayRes();
+        ByteBuffer buf = BufferUtils.createByteBuffer(d.width * d.height);
+        BufferedImage img = new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_RGB);
+
+        glPixelStorei(GL_PACK_ALIGNMENT, 1);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glReadPixels(0, 0, d.width, d.height, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, buf);
+        for(int i = 0; i < d.width; i++)
+            for(int j = 0; j < d.height; j++)
+                img.setRGB(i, d.height-j-1, buf.get(j * d.width + i) == 0 ? 0 : 0xFFFFFF);
+        try {
+            ImageIO.write(img, "png", new File("stencil"+x+".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static ModContainer lastMod;
@@ -60,10 +87,14 @@ public class GuiModListScroll
         glStencilOp(GL_ZERO, GL_ZERO, GL_ZERO);
         GuiDraw.drawRect(0, 0, gui.width, gui.height, -1);//clear stencil buffer
 
+        screenshotStencil(1);
+
         glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
-        GuiDraw.drawRect(x1, y1, gui.width-x1, gui.height-y1, -1);//add description area (even below button)
+        GuiDraw.drawRect(x1, y1, gui.width - x1, gui.height - y1, -1);//add description area (even below button)
         glStencilOp(GL_ZERO, GL_ZERO, GL_ZERO);
         GuiDraw.drawRect(gui.width / 2 - 75, y2, 200, 20, -1);//subtract done button
+
+        screenshotStencil(2);
 
         glColorMask(true, true, true, true);
         glStencilFunc(GL_EQUAL, 1, 1);
@@ -76,6 +107,8 @@ public class GuiModListScroll
         GuiDraw.drawRect(0, 0, gui.width, gui.height, -1);
         glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
         GuiDraw.drawRect(x1, y1draw, x2-x1, y2-y1draw, -1);
+
+        screenshotStencil(3);
 
         glColorMask(true, true, true, true);
         glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);

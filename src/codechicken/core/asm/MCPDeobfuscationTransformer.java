@@ -1,6 +1,5 @@
 package codechicken.core.asm;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
@@ -19,16 +18,13 @@ import org.objectweb.asm.tree.MethodNode;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
-import codechicken.core.launch.CodeChickenCorePlugin;
 import codechicken.lib.asm.ASMHelper;
 import codechicken.lib.asm.CC_ClassWriter;
 import codechicken.lib.asm.ObfMapping;
-import codechicken.lib.config.ConfigFile;
 import codechicken.obfuscator.IHeirachyEvaluator;
 import codechicken.obfuscator.ObfuscationRun;
 import codechicken.obfuscator.ObfuscationMap.ObfuscationEntry;
 import cpw.mods.fml.common.asm.transformers.AccessTransformer;
-import cpw.mods.fml.common.asm.transformers.DeobfuscationTransformer;
 
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.LaunchClassLoader;
@@ -118,18 +114,15 @@ public class MCPDeobfuscationTransformer implements IClassTransformer, Opcodes, 
 
     public static void load() {
         CodeChickenCoreModContainer.loadConfig();
-        ConfigFile config = CodeChickenCoreModContainer.config;
-        File mcDir = CodeChickenCorePlugin.minecraftDir;
 
-        if (config.getTag("dev.deobfuscate")
+        if (CodeChickenCoreModContainer.config.getTag("dev.deobfuscate")
                 .setComment("set to true to completely deobfuscate mcp names")
                 .getBooleanValue(!ObfMapping.obfuscated)) {
             run = new ObfuscationRun(false, ObfMapping.MCPRemapper.getConfFiles(),
                     ObfuscationRun.fillDefaults(new HashMap<String, String>()));
             run.obf.setHeirachyEvaluator(instance);
             run.setQuiet().parseMappings();
-            for (String pkg : run.config.get("excludedPackages").split(";"))
-                excludedPackages.add(pkg);
+            Collections.addAll(excludedPackages, run.config.get("excludedPackages").split(";"));
 
             if (ObfMapping.obfuscated) {
                 ObfMapping.loadMCPRemapper();
@@ -168,11 +161,7 @@ public class MCPDeobfuscationTransformer implements IClassTransformer, Opcodes, 
         if (ObfMapping.obfuscated) {
             //move ourselves to the end
             List<IClassTransformer> transformers = getTransformers();
-            for (Iterator<IClassTransformer> iterator = transformers.iterator(); iterator.hasNext(); ) {
-                IClassTransformer t = iterator.next();
-                if (t == instance || t instanceof DeobfuscationTransformer)
-                    iterator.remove();
-            }
+            transformers.remove(instance);
             transformers.add(instance);
         } else {
             //remap access transformers
