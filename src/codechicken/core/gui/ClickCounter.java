@@ -1,5 +1,7 @@
 package codechicken.core.gui;
 
+import com.google.common.base.Objects;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -12,7 +14,7 @@ public class ClickCounter<T>
         public int count;
 
         public boolean update(T clicked) {
-            if(this.clicked != clicked) {
+            if(Objects.equal(this.clicked, clicked)) {
                 this.clicked = clicked;
                 count = 0;
                 time = Long.MIN_VALUE;
