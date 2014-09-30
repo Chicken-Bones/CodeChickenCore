@@ -101,7 +101,7 @@ public class DelegatedTransformer implements IClassTransformer
     private static void defineDependancies(byte[] bytes, JarFile jar, File jarFile, Stack<String> depStack) throws Exception
     {
         ClassReader reader = new ClassReader(bytes);
-        DependancyLister lister = new DependancyLister(Opcodes.ASM4);
+        DependancyLister lister = new DependancyLister(Opcodes.ASM5);
         reader.accept(lister, 0);
         
         depStack.push(reader.getClassName());
