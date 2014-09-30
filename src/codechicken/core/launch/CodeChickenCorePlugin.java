@@ -154,9 +154,6 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
                 if (attr == null)
                     return;
 
-                String mapFile = attr.getValue("AccessTransformer");
-                if (mapFile != null)
-                    CodeChickenAccessTransformer.addTransformerMap(mapFile);
                 String transformer = attr.getValue("CCTransformer");
                 if (transformer != null)
                     DelegatedTransformer.addTransformer(transformer, jar, file);
