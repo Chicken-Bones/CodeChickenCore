@@ -2,11 +2,7 @@ package codechicken.core.asm;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.LinkedList;
-import java.util.List;
 
-import codechicken.core.launch.CodeChickenCorePlugin;
 import com.google.common.collect.ImmutableBiMap;
 
 import codechicken.lib.asm.ObfMapping;

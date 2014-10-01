@@ -22,7 +22,7 @@ public class MethodASMifier extends ClassVisitor
     Printer asmifier;
 
     public MethodASMifier(ObfMapping method, Printer printer, PrintWriter printWriter) {
-        super(ASM5);
+        super(ASM4);
         this.method = method;
         this.printWriter = printWriter;
         asmifier = printer;

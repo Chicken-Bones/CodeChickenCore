@@ -76,7 +76,7 @@ public class DependancyLister extends ClassVisitor
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions)
     {
         dependDesc(desc);
-        return new DependancyMethodLister(Opcodes.ASM5);
+        return new DependancyMethodLister(Opcodes.ASM4);
     }
     
     @Override
