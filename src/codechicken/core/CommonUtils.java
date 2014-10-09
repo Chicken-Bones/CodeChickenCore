@@ -15,12 +15,13 @@ public class CommonUtils
         return FMLCommonHandler.instance().getSide().isClient();
     }
 
-    public static File getSaveLocation(int dim) {
-        File basesave = DimensionManager.getCurrentSaveRootDirectory();
-        if (dim != 0)
-            return new File(basesave, DimensionManager.getWorld(dim).provider.getSaveFolder());
+    public static File getSaveLocation(World world) {
+        File base = DimensionManager.getCurrentSaveRootDirectory();
+        return world.provider.dimensionId == 0 ? base : new File(base, world.provider.getSaveFolder());
+    }
 
-        return basesave;
+    public static File getSaveLocation(int dim) {
+        return getSaveLocation(DimensionManager.getWorld(dim));
     }
 
     public static String getWorldName(World world) {
