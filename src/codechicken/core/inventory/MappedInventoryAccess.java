@@ -1,11 +1,13 @@
 package codechicken.core.inventory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IChatComponent;
 
 public class MappedInventoryAccess implements IInventory
 {
@@ -27,10 +29,7 @@ public class MappedInventoryAccess implements IInventory
 
     public MappedInventoryAccess(IInventory inv, InventoryAccessor... accessors) {
         this.inv = inv;
-
-        for (InventoryAccessor a : accessors)
-            this.accessors.add(a);
-
+        Collections.addAll(this.accessors, accessors);
         reset();
     }
 
@@ -72,11 +71,6 @@ public class MappedInventoryAccess implements IInventory
     }
 
     @Override
-    public String getInventoryName() {
-        return inv.getInventoryName();
-    }
-
-    @Override
     public int getInventoryStackLimit() {
         return inv.getInventoryStackLimit();
     }
@@ -91,16 +85,6 @@ public class MappedInventoryAccess implements IInventory
         return inv.isUseableByPlayer(player);
     }
 
-    @Override
-    public void openInventory() {
-        inv.openInventory();
-    }
-
-    @Override
-    public void closeInventory() {
-        inv.closeInventory();
-    }
-
     public void addAccessor(InventoryAccessor accessor) {
         accessors.add(accessor);
         reset();
@@ -112,8 +96,48 @@ public class MappedInventoryAccess implements IInventory
     }
 
     @Override
-    public boolean hasCustomInventoryName() {
-        return true;
+    public void openInventory(EntityPlayer player) {
+        inv.openInventory(player);
+    }
+
+    @Override
+    public void closeInventory(EntityPlayer player) {
+        inv.closeInventory(player);
+    }
+
+    @Override
+    public int getField(int id) {
+        return inv.getField(id);
+    }
+
+    @Override
+    public void setField(int id, int value) {
+        inv.setField(id, value);
+    }
+
+    @Override
+    public int getFieldCount() {
+        return inv.getFieldCount();
+    }
+
+    @Override
+    public void clear() {
+        inv.clear();
+    }
+
+    @Override
+    public String getName() {
+        return inv.getName();
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return inv.hasCustomName();
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return inv.getDisplayName();
     }
 
     public List<InventoryAccessor> accessors() {

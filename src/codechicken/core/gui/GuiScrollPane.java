@@ -135,7 +135,7 @@ public abstract class GuiScrollPane extends GuiWidget
     public void slotUp(int mx, int my, int button) {}
 
     @Override
-    public void mouseMovedOrUp(int mx, int my, int button) {
+    public void mouseReleased(int mx, int my, int button) {
         Rectangle w = windowBounds();
         if (isScrolling() && button == 0)//we were scrolling and we released mouse
             scrollclicky = -1;

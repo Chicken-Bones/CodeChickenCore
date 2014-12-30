@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 import codechicken.core.launch.CodeChickenCorePlugin;
 import com.google.common.base.Function;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.versioning.ComparableVersion;
-import cpw.mods.fml.relauncher.FMLInjectionData;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.versioning.ComparableVersion;
+import net.minecraftforge.fml.relauncher.FMLInjectionData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;

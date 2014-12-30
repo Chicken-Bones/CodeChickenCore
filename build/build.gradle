@@ -30,8 +30,16 @@ configFile.withReader {
     project.ext.config = new ConfigSlurper().parse prop
 }
 
+configurations {
+    devLibs
+    obfLibs
+}
+
 dependencies {
-    compile "codechicken:CodeChickenLib:${config.mc_version}-${config.ccl_version}:dev"
+    devLibs "codechicken:CodeChickenLib:${config.mc_version}-${config.ccl_version}:dev"
+    obfLibs "codechicken:CodeChickenLib:${config.mc_version}-${config.ccl_version}:universal"
+
+    configurations.compile.extendsFrom(configurations.devLibs)
 }
 
 version =  "${project.config.mod_version}." + System.getenv("BUILD_NUMBER") ?: "1"
@@ -40,6 +48,7 @@ println  config.mc_version + "-" + config.forge_version
 // Setup the forge minecraft plugin data. Specify the preferred forge/minecraft version here
 minecraft {
     version = config.mc_version + "-" + config.forge_version
+    mappings = "snapshot_nodoc_20141130"
 	replace '${mod_version}', project.config.mod_version
 }
 
@@ -75,11 +84,15 @@ processResources {
 version = "${project.minecraft.version}-${project.version}"
 def commonManifest = {
     attributes 'FMLCorePlugin': 'codechicken.core.launch.CodeChickenCorePlugin'
+    attributes 'FMLAT': 'ccc_at.cfg'
 }
 
 jar {
     classifier = 'universal'
     manifest commonManifest
+    into('lib') {
+        from configurations.obfLibs
+    }
 }
 
 task sourceJar(type: Jar) {
@@ -91,6 +104,9 @@ task devJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'dev'
     manifest commonManifest
+    into('lib') {
+        from configurations.devLibs
+    }
 }
 
 // Tell the artifact system about our extra jars

@@ -2,10 +2,10 @@ package codechicken.core;
 
 import codechicken.core.internal.CCCEventHandler;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -46,7 +46,7 @@ public class ClientUtils extends CommonUtils
     public static String getServerIP() {
         try {
             NetworkManager networkManager = mc().getNetHandler().getNetworkManager();
-            String s = networkManager.getSocketAddress().toString();
+            String s = networkManager.getRemoteAddress().toString();
             s = s.substring(s.indexOf("/") + 1);
             return s;
         } catch (RuntimeException e) {

@@ -16,21 +16,21 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import codechicken.core.asm.*;
-import cpw.mods.fml.relauncher.CoreModManager;
+import net.minecraftforge.fml.relauncher.CoreModManager;
 
-import cpw.mods.fml.common.versioning.DefaultArtifactVersion;
-import cpw.mods.fml.common.versioning.VersionParser;
-import cpw.mods.fml.relauncher.FMLInjectionData;
-import cpw.mods.fml.relauncher.IFMLCallHook;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
+import net.minecraftforge.fml.common.versioning.DefaultArtifactVersion;
+import net.minecraftforge.fml.common.versioning.VersionParser;
+import net.minecraftforge.fml.relauncher.FMLInjectionData;
+import net.minecraftforge.fml.relauncher.IFMLCallHook;
+import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
+import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @TransformerExclusions(value = {"codechicken.core.asm", "codechicken.obfuscator"})
 public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
 {
-    public static final String mcVersion = "[1.7.10]";
+    public static final String mcVersion = "[1.8]";
     public static final String version = "${mod_version}";
 
     public static File minecraftDir;
@@ -50,7 +50,7 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
 
     private void injectDeobfPlugin() {
         try {
-            Class<?> wrapperClass = Class.forName("cpw.mods.fml.relauncher.CoreModManager$FMLPluginWrapper");
+            Class<?> wrapperClass = Class.forName("net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper");
             Constructor wrapperConstructor = wrapperClass.getConstructor(String.class, IFMLLoadingPlugin.class, File.class, Integer.TYPE, String[].class);
             Field f_loadPlugins = CoreModManager.class.getDeclaredField("loadPlugins");
             wrapperConstructor.setAccessible(true);
@@ -95,7 +95,6 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
     public String[] getASMTransformerClass() {
         versionCheck(mcVersion, "CodeChickenCore");
         return new String[]{
-                "codechicken.lib.asm.ClassHeirachyManager",
                 "codechicken.core.asm.InterfaceDependancyTransformer",
                 "codechicken.core.asm.TweakTransformer",
                 "codechicken.core.asm.DelegatedTransformer",

@@ -7,8 +7,8 @@ import com.google.common.collect.ImmutableBiMap;
 
 import codechicken.lib.asm.ObfMapping;
 
-import cpw.mods.fml.common.asm.transformers.AccessTransformer;
-import cpw.mods.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
+import net.minecraftforge.fml.common.asm.transformers.AccessTransformer;
+import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 
 public class CodeChickenAccessTransformer extends AccessTransformer
 {

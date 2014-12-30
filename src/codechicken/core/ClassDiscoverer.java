@@ -10,6 +10,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import net.minecraft.launchwrapper.Launch;
+import net.minecraftforge.fml.common.ModContainer;
 import org.objectweb.asm.tree.ClassNode;
 
 import codechicken.core.launch.CodeChickenCorePlugin;
@@ -17,10 +18,10 @@ import codechicken.lib.asm.ASMHelper;
 
 import com.google.common.collect.ImmutableList;
 
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModClassLoader;
-import cpw.mods.fml.relauncher.CoreModManager;
+import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModClassLoader;
+import net.minecraftforge.fml.relauncher.CoreModManager;
 
 public class ClassDiscoverer
 {
@@ -83,28 +84,24 @@ public class ClassDiscoverer
     }
 
     private void findClasspathMods() {
-        List<String> knownLibraries = ImmutableList.<String>builder()
-                .addAll(modClassLoader.getDefaultLibraries())
-                .addAll(CoreModManager.getLoadedCoremods()).build();
-        File[] minecraftSources = modClassLoader.getParentSources();
-        HashSet<String> searchedSources = new HashSet<String>();
-        for (File minecraftSource : minecraftSources) {
-            if (searchedSources.contains(minecraftSource.getAbsolutePath()))
+        List<ModContainer> mods = Loader.instance().getActiveModList();
+        HashSet<String> searched = new HashSet<String>();
+        for (ModContainer mod : mods) {
+            File source = mod.getSource();
+            if(source == null || searched.contains(source.getAbsolutePath()))
                 continue;
-            searchedSources.add(minecraftSource.getAbsolutePath());
+            searched.add(source.getAbsolutePath());
 
-            if (minecraftSource.isFile()) {
-                if (!knownLibraries.contains(minecraftSource.getName())) {
-                    FMLLog.fine("Found a minecraft related file at %s, examining for codechicken classes", minecraftSource.getAbsolutePath());
-                    try {
-                        readFromZipFile(minecraftSource);
-                    } catch (Exception e) {
-                        CodeChickenCorePlugin.logger.error("Failed to scan " + minecraftSource.getAbsolutePath() + ", the zip file is invalid", e);
-                    }
+            if (source.isFile()) {
+                CodeChickenCorePlugin.logger.debug("Found a mod container %s, examining for codechicken classes", source.getAbsolutePath());
+                try {
+                    readFromZipFile(source);
+                } catch (Exception e) {
+                    CodeChickenCorePlugin.logger.error("Failed to scan " + source.getAbsolutePath() + ", the zip file is invalid", e);
                 }
-            } else if (minecraftSource.isDirectory()) {
-                FMLLog.fine("Found a minecraft related directory at %s, examining for codechicken classes", minecraftSource.getAbsolutePath());
-                readFromDirectory(minecraftSource, minecraftSource);
+            } else if (source.isDirectory()) {
+                CodeChickenCorePlugin.logger.debug("Found a minecraft related directory at %s, examining for codechicken classes", source.getAbsolutePath());
+                readFromDirectory(source, source);
             }
         }
     }
