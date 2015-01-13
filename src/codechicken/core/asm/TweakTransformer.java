@@ -5,7 +5,6 @@ import codechicken.lib.asm.ModularASMTransformer.MethodReplacer;
 import codechicken.lib.asm.ModularASMTransformer.MethodTransformer;
 import codechicken.lib.asm.ModularASMTransformer.MethodWriter;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -71,9 +70,9 @@ public class TweakTransformer implements IClassTransformer, Opcodes
             {
                 @Override
                 public void transform(MethodNode mv) {
-                    InsnListSection key = findOnce(mv.instructions, blocks.get("finiteWater").list);
-                    key.setLast(((JumpInsnNode) key.getLast()).label);
-                    key.remove();
+                    ASMBlock needle = blocks.get("finiteWater");
+                    ASMBlock key = needle.applyLabels(findOnce(mv.instructions, needle.list));
+                    mv.instructions.insertBefore(key.list.getFirst(), new JumpInsnNode(GOTO, key.get("LEND")));
                 }
             });
         }
