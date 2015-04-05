@@ -41,7 +41,7 @@ public class ServerUtils extends CommonUtils
         packetSender.sendPacket(player, player.currentWindowId);
         player.openContainer = container;
         player.openContainer.windowId = player.currentWindowId;
-        player.openContainer.addCraftingToCrafters(player);
+        player.openContainer.onCraftGuiOpened(player);
     }
 
     public static GameProfile getGameProfile(String username) {
@@ -51,9 +51,9 @@ public class ServerUtils extends CommonUtils
 
         //try and access it in the cache without forcing a save
         username = username.toLowerCase(Locale.ROOT);
-        ProfileEntry cachedEntry = (ProfileEntry) mc().getPlayerProfileCache().field_152661_c.get(username);
+        ProfileEntry cachedEntry = (ProfileEntry) mc().getPlayerProfileCache().usernameToProfileEntryMap.get(username);
         if(cachedEntry != null)
-            return cachedEntry.func_152668_a();
+            return cachedEntry.getGameProfile();
 
         //load it from the cache
         return mc().getPlayerProfileCache().getGameProfileForUsername(username);

@@ -23,13 +23,13 @@ public abstract class ContainerExtended extends Container implements ICrafting
     }
 
     @Override
-    public void addCraftingToCrafters(ICrafting icrafting) {
+    public void onCraftGuiOpened(ICrafting icrafting) {
         if (icrafting instanceof EntityPlayerMP) {
             playerCrafters.add((EntityPlayerMP) icrafting);
             sendContainerAndContentsToPlayer(this, getInventory(), Arrays.asList((EntityPlayerMP) icrafting));
             detectAndSendChanges();
         } else
-            super.addCraftingToCrafters(icrafting);
+            super.onCraftGuiOpened(icrafting);
     }
 
     @Override
@@ -41,7 +41,7 @@ public abstract class ContainerExtended extends Container implements ICrafting
     }
 
     @Override
-    public void sendContainerAndContentsToPlayer(Container container, List list) {
+    public void updateCraftingInventory(Container container, List list) {
         sendContainerAndContentsToPlayer(container, list, playerCrafters);
     }
 
@@ -60,7 +60,7 @@ public abstract class ContainerExtended extends Container implements ICrafting
         }
 
         for (EntityPlayerMP player : playerCrafters)
-            player.sendContainerAndContentsToPlayer(container, list);
+            player.updateCraftingInventory(container, list);
 
         for (int i = 0; i < largeStacks.size(); i++) {
             ItemStack stack = largeStacks.get(i);
