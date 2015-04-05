@@ -28,22 +28,22 @@ public abstract class CoreCommand implements ICommand
 
     @Override
     public String getCommandUsage(ICommandSender var1) {
-        return "/" + getName() + " help";
+        return "/" + getCommandName() + " help";
     }
 
     @Override
-    public void execute(ICommandSender sender, String[] args) {
+    public void processCommand(ICommandSender sender, String[] args) {
         if (args.length < minimumParameters() ||
                 args.length == 1 && args[0].equals("help")) {
             printHelp(sender);
             return;
         }
 
-        String command = getName();
+        String command = getCommandName();
         for (String arg : args)
             command += " " + arg;
 
-        handleCommand(command, sender.getName(), args, sender);
+        handleCommand(command, sender.getCommandSenderName(), args, sender);
     }
 
     public abstract void handleCommand(String command, String playername, String[] args, ICommandSender listener);
@@ -64,11 +64,11 @@ public abstract class CoreCommand implements ICommand
 
     @Override
     public int compareTo(Object o) {
-        return getName().compareTo(((ICommand) o).getName());
+        return getCommandName().compareTo(((ICommand) o).getCommandName());
     }
 
     @Override
-    public List<?> getAliases() {
+    public List<?> getCommandAliases() {
         return null;
     }
 
@@ -83,7 +83,7 @@ public abstract class CoreCommand implements ICommand
     }
 
     @Override
-    public boolean canCommandSenderUse(ICommandSender var1) {
+    public boolean canCommandSenderUseCommand(ICommandSender var1) {
         if (OPOnly()) {
             if (var1 instanceof EntityPlayer)
                 return MinecraftServer.getServer().getConfigurationManager().canSendCommands(((EntityPlayer) var1).getGameProfile());

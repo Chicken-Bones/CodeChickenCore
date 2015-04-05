@@ -126,8 +126,8 @@ public class MappedInventoryAccess implements IInventory
     }
 
     @Override
-    public String getName() {
-        return inv.getName();
+    public String getCommandSenderName() {
+        return inv.getCommandSenderName();
     }
 
     @Override

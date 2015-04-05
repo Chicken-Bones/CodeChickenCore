@@ -11,8 +11,8 @@ import net.minecraft.world.WorldServer;
 public abstract class PlayerCommand extends CoreCommand
 {
     @Override
-    public boolean canCommandSenderUse(ICommandSender var1) {
-        return super.canCommandSenderUse(var1) && var1 instanceof EntityPlayer;
+    public boolean canCommandSenderUseCommand(ICommandSender var1) {
+        return super.canCommandSenderUseCommand(var1) && var1 instanceof EntityPlayer;
     }
 
     @Override
