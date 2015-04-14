@@ -105,7 +105,7 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
                     }
                 }
             });
-            container = new JDialog(null, "Hello", ModalityType.MODELESS);
+            container = new JDialog(null, "CB's DepLoader", ModalityType.MODELESS);
             container.setResizable(false);
             container.setLocationRelativeTo(null);
             container.add(this);
