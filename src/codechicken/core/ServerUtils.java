@@ -63,6 +63,7 @@ public class ServerUtils extends CommonUtils
             throw new RuntimeException(e);
         }
     }
+
     public static GameProfile getGameProfile(String username) {
         EntityPlayer player = getPlayer(username);
         if(player != null)

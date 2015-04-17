@@ -38,8 +38,9 @@ public class CodeChickenCoreModContainer extends DummyModContainer
     public List<ArtifactVersion> getDependants() {
         LinkedList<ArtifactVersion> deps = new LinkedList<ArtifactVersion>();
         if(!getVersion().contains("$")) {
+            deps.add(VersionParser.parseVersionReference("Forge@[10.13.3,)"));
             deps.add(VersionParser.parseVersionReference("NotEnoughItems@[1.0.3,)"));
-            deps.add(VersionParser.parseVersionReference("EnderStorage@[1.4.5,)"));
+            deps.add(VersionParser.parseVersionReference("EnderStorage@[1.4.7,)"));
             deps.add(VersionParser.parseVersionReference("ChickenChunks@[1.3.4,)"));
             deps.add(VersionParser.parseVersionReference("Translocator@[1.1.1,)"));
             deps.add(VersionParser.parseVersionReference("WR-CBE|Core@[1.4.1,)"));

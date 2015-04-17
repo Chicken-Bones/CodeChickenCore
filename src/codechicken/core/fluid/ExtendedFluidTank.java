@@ -13,13 +13,12 @@ public class ExtendedFluidTank implements IFluidTank
     
     public ExtendedFluidTank(FluidStack type, int capacity)
     {
-        if(type == null)
-        {
-            fluid = new FluidStack(0, 0);
+        if(type == null) {
+            type = FluidUtils.water;
             changeType = true;
         }
-        else
-            fluid = FluidUtils.copy(type, 0);
+
+        fluid = FluidUtils.copy(type, 0);
         this.capacity = capacity;
     }
     
@@ -42,13 +41,13 @@ public class ExtendedFluidTank implements IFluidTank
 
     public boolean canAccept(FluidStack type)
     {
-        return type == null || type.fluidID <= 0 || (fluid.amount == 0 && changeType) || fluid.isFluidEqual(type);
+        return type == null || (fluid.amount == 0 && changeType) || fluid.isFluidEqual(type);
     }
 
     @Override
     public int fill(FluidStack resource, boolean doFill)
     {
-        if(resource == null || resource.fluidID <= 0)
+        if(resource == null)
             return 0;
 
         if(!canAccept(resource))

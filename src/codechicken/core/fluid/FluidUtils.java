@@ -1,6 +1,5 @@
 package codechicken.core.fluid;
 
-import codechicken.core.CommonUtils;
 import codechicken.lib.inventory.InventoryUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -77,7 +76,7 @@ public class FluidUtils
     public static FluidStack read(NBTTagCompound tag)
     {
         FluidStack stack = FluidStack.loadFluidStackFromNBT(tag);
-        return stack != null ? stack : new FluidStack(0, 0);
+        return stack != null ? stack : FluidUtils.emptyFluid();
     }
     
     public static NBTTagCompound write(FluidStack fluid, NBTTagCompound tag)
@@ -94,5 +93,9 @@ public class FluidUtils
         if(fluid.isGaseous())
             light=(int)(light*density);
         return light;
+    }
+
+    public static FluidStack emptyFluid() {
+        return new FluidStack(water, 0);
     }
 }
