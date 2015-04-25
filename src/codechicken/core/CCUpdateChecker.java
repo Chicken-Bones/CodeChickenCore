@@ -18,6 +18,7 @@ import cpw.mods.fml.relauncher.FMLInjectionData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
 
 public class CCUpdateChecker
 {
@@ -90,7 +91,7 @@ public class CCUpdateChecker
                         }
                         ComparableVersion newversion = new ComparableVersion(ret.substring(5));
                         if (newversion.compareTo(new ComparableVersion(version)) > 0)
-                            addUpdateMessage("Version " + newversion + " of " + mod + " is available");
+                            addUpdateMessage(StatCollector.translateToLocalFormatted("codechickencore.update", newversion, mod));
                         return null;
                     }
                 });
