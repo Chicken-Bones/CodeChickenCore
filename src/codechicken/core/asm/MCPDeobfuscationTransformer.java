@@ -203,14 +203,15 @@ public class MCPDeobfuscationTransformer implements IClassTransformer, Opcodes, 
 
     @Override
     public List<String> getParents(ObfuscationEntry desc) {
+        String name = ObfMapping.obfuscated ? desc.obf.s_owner : desc.mcp.s_owner;
+        name = name.replace('/', '.');
         try {
-            String name = ObfMapping.obfuscated ? desc.obf.s_owner : desc.mcp.s_owner;
-            name = name.replace('/', '.');
             byte[] bytes = Launch.classLoader.getClassBytes(name);
             if (bytes != null)
                 return ObfuscationRun.getParents(ASMHelper.createClassNode(bytes));
-        } catch (IOException e) {
-        }
+        } catch (IOException ignored) {}
+        //clear the miss cache because the library containing it might be loaded later
+        Launch.classLoader.clearNegativeEntries(Collections.singleton(name));
         return null;
     }
 
