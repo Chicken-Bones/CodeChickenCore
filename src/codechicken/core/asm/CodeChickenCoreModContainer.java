@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import codechicken.core.CCUpdateChecker;
+import codechicken.core.ClientUtils;
 import codechicken.core.featurehack.LiquidTextures;
 import codechicken.core.internal.CCCEventHandler;
 import codechicken.core.launch.CodeChickenCorePlugin;
@@ -65,6 +66,9 @@ public class CodeChickenCoreModContainer extends DummyModContainer
         if (event.getSide().isClient()) {
             if (config.getTag("checkUpdates").getBooleanValue(true))
                 CCUpdateChecker.updateCheck(getModId());
+
+            ClientUtils.enhanceSupportersList("CodeChickenCore");
+
             FMLCommonHandler.instance().bus().register(new CCCEventHandler());
             MinecraftForge.EVENT_BUS.register(new CCCEventHandler());
         }
