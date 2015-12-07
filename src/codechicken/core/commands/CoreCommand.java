@@ -43,7 +43,7 @@ public abstract class CoreCommand implements ICommand
         for (String arg : args)
             command += " " + arg;
 
-        handleCommand(command, sender.getCommandSenderName(), args, sender);
+        handleCommand(command, sender.getName(), args, sender);
     }
 
     public abstract void handleCommand(String command, String playername, String[] args, ICommandSender listener);
@@ -63,17 +63,17 @@ public abstract class CoreCommand implements ICommand
     }
 
     @Override
-    public int compareTo(Object o) {
-        return getCommandName().compareTo(((ICommand) o).getCommandName());
+    public int compareTo(ICommand o) {
+        return getCommandName().compareTo(o.getCommandName());
     }
 
     @Override
-    public List<?> getCommandAliases() {
+    public List<String> getCommandAliases() {
         return null;
     }
 
     @Override
-    public List<?> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
         return null;
     }
 
