@@ -61,8 +61,8 @@ public class MappedInventoryAccess implements IInventory
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int slot) {
-        return inv.getStackInSlotOnClosing(slotMap.get(slot));
+    public ItemStack removeStackFromSlot(int slot) {
+        return inv.removeStackFromSlot(slotMap.get(slot));
     }
 
     @Override
@@ -126,8 +126,8 @@ public class MappedInventoryAccess implements IInventory
     }
 
     @Override
-    public String getCommandSenderName() {
-        return inv.getCommandSenderName();
+    public String getName() {
+        return inv.getName();
     }
 
     @Override

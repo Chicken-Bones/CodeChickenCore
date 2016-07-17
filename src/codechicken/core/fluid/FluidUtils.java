@@ -70,7 +70,7 @@ public class FluidUtils
 
     public static FluidStack read(NBTTagCompound tag) {
         FluidStack stack = FluidStack.loadFluidStackFromNBT(tag);
-        return stack != null ? stack : new FluidStack(0, 0);
+        return stack != null ? stack : new FluidStack(FluidRegistry.getFluid(0), 0);
     }
 
     public static NBTTagCompound write(FluidStack fluid, NBTTagCompound tag) {
