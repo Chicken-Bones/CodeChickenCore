@@ -1,0 +1,71 @@
+# This workflow only meant for the source mod you shouldn't bring it into your own project
+
+name: Release packages
+
+on:
+  push:
+    branches: [ master, main ]
+
+jobs:
+  zip-packages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Zip starter
+        uses: montudor/action-zip@v1
+        with:
+          args: >
+            zip -r starter.zip . \
+                \
+                -x "*.git/*" \
+                \
+                -x ".github/scripts/update-version.sh" \
+                -x ".github/workflows/buildscript-maintenance.yml" \
+                -x ".github/workflows/package-release.yml" \
+                \
+                -x "*docs/*" \
+                -x "README.md" \
+                -x "LICENSE" \
+                \
+                -x "starter.zip" \
+                -x "migration.zip"
+
+      - name: Publish starter package
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest-stater"
+          prerelease: true
+          title: "Latest starter package"
+          files: "starter.zip"
+
+      - name: Zip migration
+        uses: montudor/action-zip@v1
+        with:
+          args: >
+            zip -r migration.zip . \
+                \
+                -x "*.git/*" \
+                \
+                -x ".github/scripts/update-version.sh" \
+                -x ".github/workflows/buildscript-maintenance.yml" \
+                -x ".github/workflows/package-release.yml" \
+                \
+                -x "*docs/*" \
+                -x "*src/*" \
+                -x "LICENSE" \
+                -x "README.md" \
+                \
+                -x "starter.zip" \
+                -x "migration.zip"
+            
+      - name: Publish migration package
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest-migration"
+          prerelease: true
+          title: "Latest migration package"
+          files: "migration.zip"

@@ -1,0 +1,24 @@
+# This workflow only meant for the source mod you shouldn't bring it into your own project
+
+name: Buildscript maintenance
+
+on:
+  push:
+    branches: [ master, main ]
+
+jobs:
+  buildscript-maintenance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: setup git config
+        run: |
+          git config user.name "GitHub CI Bot"
+          git config user.email "<>"
+
+      - name: Ensure build script version is up to date
+        run: .github/scripts/update-version.sh
