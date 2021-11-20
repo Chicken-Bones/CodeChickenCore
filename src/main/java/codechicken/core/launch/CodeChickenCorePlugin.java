@@ -31,7 +31,6 @@ import org.apache.logging.log4j.Logger;
 public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
 {
     public static final String mcVersion = "[1.7.10]";
-    public static final String version = "GRADLETOKEN_VERSION";
 
     public static File minecraftDir;
     public static String currentMcVersion;

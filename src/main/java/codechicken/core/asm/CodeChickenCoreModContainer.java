@@ -32,7 +32,15 @@ public class CodeChickenCoreModContainer extends DummyModContainer
     }
 
     public CodeChickenCoreModContainer() {
-        super(MetadataCollection.from(MetadataCollection.class.getResourceAsStream("/mcmod.info"), "CodeChickenCore").getMetadataForId("CodeChickenCore", null));
+        super(getModMetadata());
+    }
+
+    private static ModMetadata getModMetadata() {
+        final ModMetadata modMetadata = new ModMetadata();
+        modMetadata.name = "GRADLETOKEN_MODNAME";
+        modMetadata.modId = "GRADLETOKEN_MODID";
+        modMetadata.version = "GRADLETOKEN_VERSION";
+        return modMetadata;
     }
 
     @Override
