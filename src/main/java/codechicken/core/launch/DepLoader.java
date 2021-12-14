@@ -508,7 +508,6 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
                 zip.close();
             } catch (Exception e) {
                 System.err.println("Failed to load dependencies.info from " + file.getName() + " as JSON");
-                e.printStackTrace();
             }
         }
 
