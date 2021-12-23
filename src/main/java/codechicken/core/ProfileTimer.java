@@ -1,5 +1,7 @@
 package codechicken.core;
 
+import codechicken.core.launch.CodeChickenCorePlugin;
+
 public class ProfileTimer
 {
     public double decay;
@@ -33,7 +35,6 @@ public class ProfileTimer
 
         scanCount++;
         if(logScans > 0 && scanCount % logScans == 0)
-            System.out.println("Profiled " + logName + " " + nanoTime + "ns");
-
+            CodeChickenCorePlugin.logger.info("Profiled " + logName + " " + nanoTime + "ns");
     }
 }
