@@ -118,7 +118,7 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
             ci.next();
         }
         value *= Long.signum(bytes);
-        return String.format("%.1f %ciB", value / 1024.0, ci.current());
+        return String.format("%.1f %cB", value / 1024.0, ci.current());
     }
 
     public static void systemCheck(String minRAM) {
