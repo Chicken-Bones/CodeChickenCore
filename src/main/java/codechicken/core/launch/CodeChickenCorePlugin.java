@@ -149,7 +149,7 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
 
             if (!GraphicsEnvironment.isHeadless())
                 JOptionPane.showMessageDialog(null, ep, "lol nope", JOptionPane.ERROR_MESSAGE);
-            FMLCommonHandler.instance().exitJava(-99, true);
+            FMLCommonHandler.instance().exitJava(-98, true);
         }
     }
 
