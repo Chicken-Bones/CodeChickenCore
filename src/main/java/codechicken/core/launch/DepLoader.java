@@ -186,7 +186,7 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
                 }
             });
 
-            JOptionPane.showMessageDialog(null, ep, "A download error has occured", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ep, "A download error has occurred", JOptionPane.ERROR_MESSAGE);
         }
     }
 
