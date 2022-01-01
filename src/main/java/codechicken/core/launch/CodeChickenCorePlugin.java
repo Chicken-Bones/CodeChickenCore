@@ -124,7 +124,7 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
     public static void systemCheck(String minRAM) {
         long minBytes = parseSize(minRAM);
         if (Runtime.getRuntime().maxMemory() < minBytes) {
-            String err = "You should have at least " + minRAM + "of RAM but you have only allocated " + humanReadableByteCountBin(Runtime.getRuntime().maxMemory()) + ".";
+            String err = "You should have at least " + minRAM + " of RAM but you have only allocated " + humanReadableByteCountBin(Runtime.getRuntime().maxMemory()) + ".";
             logger.error(err);
 
             JEditorPane ep = new JEditorPane("text/html",
