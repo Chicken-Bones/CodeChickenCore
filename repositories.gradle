@@ -2,6 +2,11 @@
 
 repositories {
     maven {
-        url = "https://jitpack.io"
+        name 'GTNH Maven'
+        url 'http://jenkins.usrv.eu:8081/nexus/content/groups/public/'
+        allowInsecureProtocol
+    }
+    maven {
+        url 'https://jitpack.io'
     }
 }

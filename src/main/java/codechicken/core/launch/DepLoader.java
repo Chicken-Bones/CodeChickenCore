@@ -8,11 +8,10 @@ import cpw.mods.fml.relauncher.FMLInjectionData;
 import cpw.mods.fml.relauncher.FMLLaunchHandler;
 import cpw.mods.fml.relauncher.IFMLCallHook;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
 import net.minecraft.launchwrapper.LaunchClassLoader;
 import sun.misc.URLClassPath;
 import sun.net.util.URLUtil;
-
-import codechicken.core.launch.CodeChickenCorePlugin;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -30,8 +29,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLConnection;
 import java.nio.ByteBuffer;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -42,6 +41,7 @@ import java.util.zip.ZipFile;
  * For autodownloading stuff.
  * This is really unoriginal, mostly ripped off FML, credits to cpw.
  */
+@MCVersion( "1.7.10" )
 public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
     private static ByteBuffer downloadBuffer = ByteBuffer.allocateDirect(1 << 23);
     private static final String owner = "CB's DepLoader";

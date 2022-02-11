@@ -26,11 +26,13 @@ import cpw.mods.fml.common.versioning.VersionParser;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 import cpw.mods.fml.relauncher.IFMLCallHook;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @TransformerExclusions(value = {"codechicken.core.asm", "codechicken.obfuscator"})
+@MCVersion( "1.7.10" )
 public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
 {
     public static final String mcVersion = "[1.7.10]";
