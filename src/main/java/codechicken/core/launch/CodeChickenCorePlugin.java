@@ -18,6 +18,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import codechicken.core.asm.*;
+import codechicken.lib.config.ConfigTag;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.CoreModManager;
 
@@ -36,7 +37,8 @@ import org.apache.logging.log4j.Logger;
 public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
 {
     public static final String mcVersion = "[1.7.10]";
-    public static final String version = "GRADLETOKEN_VERSION";
+    @Deprecated
+    public static final String version = "1.1.3-unused";
 
     public static File minecraftDir;
     public static String currentMcVersion;
@@ -122,17 +124,17 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
         return String.format("%.1f %cB", value / 1024.0, ci.current());
     }
 
-    public static void systemCheck(String minRAM) {
-        long minBytes = parseSize(minRAM);
+    public static void systemCheck(ConfigTag checkRAM) {
+        long minBytes = parseSize(checkRAM.getTag("minRAM").setComment("Amount of RAM minimum this modpack needs to load").getValue("3GB"));
         if (Runtime.getRuntime().maxMemory() < minBytes) {
-            String err = "You should have at least " + minRAM + " of RAM but you have only allocated " + humanReadableByteCountBin(Runtime.getRuntime().maxMemory()) + ".";
+            String err = "You should have at least " + humanReadableByteCountBin(minBytes) + " of RAM but you have only allocated " + humanReadableByteCountBin(Runtime.getRuntime().maxMemory()) + ".";
             logger.error(err);
 
             JEditorPane ep = new JEditorPane("text/html",
-                    "<html>" +
-                            err +
-                            "<br>GTNH seriously won't run without enough RAM. See <a href=\"https://gtnh.miraheze.org/m/3S2\">the Wiki</a> for details." +
-                            "<br>Recommended values are between 4GB and 6GB. Check your launcher's JVM arguments." +
+                    "<html>" + err + "<br>" + checkRAM.getTag("modPack").setComment("Name of the modpack").getValue("Unidentified ModPack") +
+                            " seriously won't run without enough RAM. " + checkRAM.getTag("wiki").setComment("Webpage describing RAM settings").getValue("See <a href=\"https://downloadmoreram.com\">DownloadMoreRam.com</a> for details.") +
+                            "<br>Recommended values are between " + checkRAM.getTag("recRAM").setComment("Lower bound of recommended RAM").getValue("4GB") + " and " +
+                            checkRAM.getTag("recRAMUpper").setComment("Upper bound of recommended RAM").getValue("6GB") + ". Check your launcher's JVM arguments." +
                             "</html>");
 
             ep.setEditable(false);
@@ -187,7 +189,11 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
     @Override
     public Void call() {
         CodeChickenCoreModContainer.loadConfig();
-        systemCheck(CodeChickenCoreModContainer.config.getTag("minRAM").getValue("3GB"));
+        ConfigTag checkRAM;
+        checkRAM = CodeChickenCoreModContainer.config.getTag("checks")
+                .setComment("Configuration options for checking various requirements for a modpack.").useBraces();
+        if(checkRAM.getTag("checkRAM").setComment("If set to true, check RAM available for Minecraft before continuing to load").getBooleanValue(false))
+            systemCheck(checkRAM);
         TweakTransformer.load();
         scanCodeChickenMods();
 
