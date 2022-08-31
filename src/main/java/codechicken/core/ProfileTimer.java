@@ -2,8 +2,7 @@ package codechicken.core;
 
 import codechicken.core.launch.CodeChickenCorePlugin;
 
-public class ProfileTimer
-{
+public class ProfileTimer {
     public double decay;
     public long startTime;
     public long nanoTime;
@@ -30,11 +29,11 @@ public class ProfileTimer
     }
 
     public void end() {
-        long t = System.nanoTime()-startTime;
-        nanoTime = (long)(nanoTime*decay+t*(1-decay));
+        long t = System.nanoTime() - startTime;
+        nanoTime = (long) (nanoTime * decay + t * (1 - decay));
 
         scanCount++;
-        if(logScans > 0 && scanCount % logScans == 0)
+        if (logScans > 0 && scanCount % logScans == 0)
             CodeChickenCorePlugin.logger.info("Profiled " + logName + " " + nanoTime + "ns");
     }
 }

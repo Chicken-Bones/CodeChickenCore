@@ -1,8 +1,10 @@
 package codechicken.core.asm;
 
+import static org.objectweb.asm.Opcodes.*;
+
+import codechicken.lib.asm.ObfMapping;
 import java.io.File;
 import java.io.PrintWriter;
-
 import net.minecraft.launchwrapper.Launch;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -10,13 +12,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.util.Printer;
 import org.objectweb.asm.util.TraceMethodVisitor;
 
-import codechicken.core.launch.CodeChickenCorePlugin;
-import codechicken.lib.asm.ObfMapping;
-
-import static org.objectweb.asm.Opcodes.*;
-
-public class MethodASMifier extends ClassVisitor
-{
+public class MethodASMifier extends ClassVisitor {
     PrintWriter printWriter;
     ObfMapping method;
     Printer asmifier;
@@ -55,10 +51,8 @@ public class MethodASMifier extends ClassVisitor
 
     public static void printMethod(ObfMapping method, byte[] bytes, Printer printer, File toFile) {
         try {
-            if (!toFile.getParentFile().exists())
-                toFile.getParentFile().mkdirs();
-            if (!toFile.exists())
-                toFile.createNewFile();
+            if (!toFile.getParentFile().exists()) toFile.getParentFile().mkdirs();
+            if (!toFile.exists()) toFile.createNewFile();
 
             PrintWriter printWriter = new PrintWriter(toFile);
 

@@ -4,10 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class EntityRenderHook extends Entity
-{
-    public static interface IRenderCallback
-    {
+public class EntityRenderHook extends Entity {
+    public static interface IRenderCallback {
         public void render(float frame, int pass);
 
         public boolean shouldRenderInPass(int pass);
@@ -26,21 +24,17 @@ public class EntityRenderHook extends Entity
 
     @Override
     public void onUpdate() {
-        if (!callback.isValid())
-            setDead();
+        if (!callback.isValid()) setDead();
     }
 
     @Override
-    protected void entityInit() {
-    }
+    protected void entityInit() {}
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound var1) {
-    }
+    protected void readEntityFromNBT(NBTTagCompound var1) {}
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound var1) {
-    }
+    protected void writeEntityToNBT(NBTTagCompound var1) {}
 
     @Override
     public boolean shouldRenderInPass(int pass) {

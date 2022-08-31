@@ -1,5 +1,10 @@
 package codechicken.core;
 
+import codechicken.core.launch.CodeChickenCorePlugin;
+import com.google.common.base.Function;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.versioning.ComparableVersion;
+import cpw.mods.fml.relauncher.FMLInjectionData;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,23 +14,14 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-
-import codechicken.core.launch.CodeChickenCorePlugin;
-import com.google.common.base.Function;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.versioning.ComparableVersion;
-import cpw.mods.fml.relauncher.FMLInjectionData;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 
-public class CCUpdateChecker
-{
+public class CCUpdateChecker {
     private static final ArrayList<String> updates = new ArrayList<String>();
 
-    private static class ThreadUpdateCheck extends Thread
-    {
+    private static class ThreadUpdateCheck extends Thread {
         private final URL url;
         private final Function<String, Void> handler;
 
@@ -46,11 +42,11 @@ public class CCUpdateChecker
                 BufferedReader read = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String ret = read.readLine();
                 read.close();
-                if(ret == null) ret = "";
+                if (ret == null) ret = "";
                 handler.apply(ret);
-            } catch (SocketTimeoutException ignored) {}
-            catch (UnknownHostException ignored) {}
-            catch (IOException iox) {
+            } catch (SocketTimeoutException ignored) {
+            } catch (UnknownHostException ignored) {
+            } catch (IOException iox) {
                 iox.printStackTrace();
             }
         }
@@ -58,12 +54,10 @@ public class CCUpdateChecker
 
     public static void tick() {
         Minecraft mc = Minecraft.getMinecraft();
-        if (!mc.inGameHasFocus)
-            return;
+        if (!mc.inGameHasFocus) return;
 
         synchronized (updates) {
-            for (String s : updates)
-                mc.thePlayer.addChatMessage(new ChatComponentText(s));
+            for (String s : updates) mc.thePlayer.addChatMessage(new ChatComponentText(s));
             updates.clear();
         }
     }
@@ -79,19 +73,22 @@ public class CCUpdateChecker
     }
 
     public static void updateCheck(final String mod, final String version) {
-        updateCheck("http://www.chickenbones.net/Files/notification/version.php?" +
-                "version=" + mcVersion() + "&" +
-                "file=" + mod,
-                new Function<String, Void>()
-                {
-                    @Override public Void apply(String ret) {
+        updateCheck(
+                "http://www.chickenbones.net/Files/notification/version.php?" + "version="
+                        + mcVersion() + "&" + "file="
+                        + mod,
+                new Function<String, Void>() {
+                    @Override
+                    public Void apply(String ret) {
                         if (!ret.startsWith("Ret: ")) {
-                            CodeChickenCorePlugin.logger.error("Failed to check update for " + mod + " returned: " + ret);
+                            CodeChickenCorePlugin.logger.error(
+                                    "Failed to check update for " + mod + " returned: " + ret);
                             return null;
                         }
                         ComparableVersion newversion = new ComparableVersion(ret.substring(5));
                         if (newversion.compareTo(new ComparableVersion(version)) > 0)
-                            addUpdateMessage(StatCollector.translateToLocalFormatted("codechickencore.update", newversion, mod));
+                            addUpdateMessage(
+                                    StatCollector.translateToLocalFormatted("codechickencore.update", newversion, mod));
                         return null;
                     }
                 });
@@ -105,7 +102,7 @@ public class CCUpdateChecker
         try {
             new ThreadUpdateCheck(new URL(url), handler).start();
         } catch (MalformedURLException e) {
-            CodeChickenCorePlugin.logger.error("Malformed URL: "+url, e);
+            CodeChickenCorePlugin.logger.error("Malformed URL: " + url, e);
         }
     }
 }

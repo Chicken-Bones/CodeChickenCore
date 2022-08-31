@@ -1,11 +1,9 @@
 package codechicken.core.gui;
 
+import java.awt.*;
 import org.lwjgl.input.Keyboard;
 
-import java.awt.*;
-
-public abstract class GuiScrollSlot extends GuiScrollPane
-{
+public abstract class GuiScrollSlot extends GuiScrollPane {
     protected String actionCommand;
     public boolean focused;
     protected ClickCounter<Integer> click = new ClickCounter<Integer>();
@@ -40,13 +38,11 @@ public abstract class GuiScrollSlot extends GuiScrollPane
 
     protected abstract void drawSlot(int slot, int x, int y, int mx, int my, float frame);
 
-    protected void unfocus() {
-    }
+    protected void unfocus() {}
 
     public void setFocused(boolean focus) {
         focused = focus;
-        if (!focused)
-            unfocus();
+        if (!focused) unfocus();
     }
 
     @Override
@@ -56,37 +52,34 @@ public abstract class GuiScrollSlot extends GuiScrollPane
 
     public int getSlotY(int slot) {
         int h = 0;
-        for(int i = 0; i < slot; i++)
-            h+=getSlotHeight(i);
+        for (int i = 0; i < slot; i++) h += getSlotHeight(i);
         return h;
     }
 
     public int getSlot(int my) {
-        if (my < 0)
-            return -1;
+        if (my < 0) return -1;
 
         int y = 0;
-        for(int i = 0; i < getNumSlots(); i++) {
+        for (int i = 0; i < getNumSlots(); i++) {
             int h = getSlotHeight(i);
-            if(my >= y && my < y+h)
-                return i;
-            y+=h;
+            if (my >= y && my < y + h) return i;
+            y += h;
         }
         return -1;
     }
 
     public int getClickedSlot(int my) {
-        return getSlot(my-windowBounds().y+scrolledPixels());
+        return getSlot(my - windowBounds().y + scrolledPixels());
     }
 
     @Override
     public int scrolledPixels() {
         int scrolled = super.scrolledPixels();
-        if(!smoothScroll) {
+        if (!smoothScroll) {
             int slot = getSlot(scrolled);
             int sloty = getSlotY(slot);
             int sloth = getSlotHeight(slot);
-            scrolled = sloty+(int)((scrolled-sloty)/(double)sloth+0.5)*sloth;
+            scrolled = sloty + (int) ((scrolled - sloty) / (double) sloth + 0.5) * sloth;
         }
         return scrolled;
     }
@@ -106,8 +99,7 @@ public abstract class GuiScrollSlot extends GuiScrollPane
     @Override
     public Rectangle scrollbarBounds() {
         Rectangle r = super.scrollbarBounds();
-        if(scrollbarAlignment() == -1)
-            r.x = x;
+        if (scrollbarAlignment() == -1) r.x = x;
         return r;
     }
 
@@ -125,21 +117,16 @@ public abstract class GuiScrollSlot extends GuiScrollPane
     public void slotUp(int mx, int my, int button) {
         int slot = getSlot(my);
         int c = click.mouseUp(slot >= 0 ? slot : null, button);
-        if(c > 0 && slot >= 0)
-            slotClicked(slot, button, mx, my-getSlotY(slot), c);
+        if (c > 0 && slot >= 0) slotClicked(slot, button, mx, my - getSlotY(slot), c);
     }
 
     @Override
     public void keyTyped(char c, int keycode) {
-        if (!focused)
-            return;
+        if (!focused) return;
 
-        if (keycode == Keyboard.KEY_UP)
-            selectPrev();
-        if (keycode == Keyboard.KEY_DOWN)
-            selectNext();
-        if (keycode == Keyboard.KEY_RETURN && actionCommand != null)
-            sendAction(actionCommand);
+        if (keycode == Keyboard.KEY_UP) selectPrev();
+        if (keycode == Keyboard.KEY_DOWN) selectNext();
+        if (keycode == Keyboard.KEY_RETURN && actionCommand != null) sendAction(actionCommand);
     }
 
     @Override
@@ -149,9 +136,9 @@ public abstract class GuiScrollSlot extends GuiScrollPane
         int y = 0;
         for (int slot = 0; slot < getNumSlots(); slot++) {
             int h = getSlotHeight(slot);
-            if (y+h > scrolled && y < scrolled+w.height)
-                drawSlot(slot, w.x, w.y+y-scrolledPixels(), mx, my-y, frame);
-            y+=h;
+            if (y + h > scrolled && y < scrolled + w.height)
+                drawSlot(slot, w.x, w.y + y - scrolledPixels(), mx, my - y, frame);
+            y += h;
         }
     }
 }

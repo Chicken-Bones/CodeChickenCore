@@ -2,11 +2,9 @@ package codechicken.core.gui;
 
 import codechicken.lib.math.MathHelper;
 import codechicken.lib.vec.Rectangle4i;
-
 import java.awt.*;
 
-public abstract class GuiScrollPane extends GuiWidget
-{
+public abstract class GuiScrollPane extends GuiWidget {
     protected int scrollclicky = -1;
     protected float scrollpercent;
     protected int scrollmousey;
@@ -29,7 +27,8 @@ public abstract class GuiScrollPane extends GuiWidget
     }
 
     public Rectangle windowBounds() {
-        return new Rectangle(x+marginleft, y+margintop, width-marginleft-marginright, height-margintop-marginbottom);
+        return new Rectangle(
+                x + marginleft, y + margintop, width - marginleft - marginright, height - margintop - marginbottom);
     }
 
     public abstract int contentHeight();
@@ -42,8 +41,10 @@ public abstract class GuiScrollPane extends GuiWidget
     public Rectangle scrollbarBounds() {
         Dimension dim = scrollbarDim();
         return new Rectangle(
-                x + width - dim.width, y + (int) ((height - dim.height) * percentscrolled + 0.4999),
-                dim.width, dim.height);
+                x + width - dim.width,
+                y + (int) ((height - dim.height) * percentscrolled + 0.4999),
+                dim.width,
+                dim.height);
     }
 
     public void scrollUp() {
@@ -55,7 +56,7 @@ public abstract class GuiScrollPane extends GuiWidget
     }
 
     public void scroll(int i) {
-        percentscrolled += i * height / (float)(2*contentHeight());
+        percentscrolled += i * height / (float) (2 * contentHeight());
         calculatePercentScrolled();
     }
 
@@ -102,15 +103,18 @@ public abstract class GuiScrollPane extends GuiWidget
         Rectangle w = windowBounds();
         int barempty = height - sbar.height;
 
-        if (button == 0 &&
-                sbar.height < height && //the scroll bar can move (not full length)
-                mx >= sbar.x && mx <= sbar.x + sbar.width &&
-                my >= y && my <= y + height)//in the scroll pane
+        if (button == 0
+                && sbar.height < height
+                && // the scroll bar can move (not full length)
+                mx >= sbar.x
+                && mx <= sbar.x + sbar.width
+                && my >= y
+                && my <= y + height) // in the scroll pane
         {
             if (my < sbar.y) {
                 percentscrolled = (my - y) / (float) barempty;
                 calculatePercentScrolled();
-            } else if (my > sbar.y+sbar.height) {
+            } else if (my > sbar.y + sbar.height) {
                 percentscrolled = (my - y - sbar.height + 1) / (float) barempty;
                 calculatePercentScrolled();
             } else {
@@ -118,8 +122,7 @@ public abstract class GuiScrollPane extends GuiWidget
                 scrollpercent = percentscrolled;
                 scrollmousey = my;
             }
-        } else if (w.contains(mx, my))
-            slotDown(mx - w.x, my - w.y + scrolledPixels(), button);
+        } else if (w.contains(mx, my)) slotDown(mx - w.x, my - w.y + scrolledPixels(), button);
     }
 
     /**
@@ -137,10 +140,9 @@ public abstract class GuiScrollPane extends GuiWidget
     @Override
     public void mouseMovedOrUp(int mx, int my, int button) {
         Rectangle w = windowBounds();
-        if (isScrolling() && button == 0)//we were scrolling and we released mouse
-            scrollclicky = -1;
-        else if (w.contains(mx, my))
-            slotUp(mx - w.x, my - w.y + scrolledPixels(), button);
+        if (isScrolling() && button == 0) // we were scrolling and we released mouse
+        scrollclicky = -1;
+        else if (w.contains(mx, my)) slotUp(mx - w.x, my - w.y + scrolledPixels(), button);
     }
 
     @Override
@@ -151,12 +153,9 @@ public abstract class GuiScrollPane extends GuiWidget
             int barupallowed = (int) ((height - sbarh) * scrollpercent + 0.5);
             int bardownallowed = (height - sbarh) - barupallowed;
 
-            if (-scrolldiff > barupallowed)
-                scrollmousey = scrollclicky - barupallowed;
-            else if (scrolldiff > bardownallowed)
-                scrollmousey = scrollclicky + bardownallowed;
-            else
-                scrollmousey = mousey;
+            if (-scrolldiff > barupallowed) scrollmousey = scrollclicky - barupallowed;
+            else if (scrolldiff > bardownallowed) scrollmousey = scrollclicky + bardownallowed;
+            else scrollmousey = mousey;
 
             calculatePercentScrolled();
         }
@@ -180,7 +179,7 @@ public abstract class GuiScrollPane extends GuiWidget
     public void draw(int mx, int my, float frame) {
         Rectangle w = windowBounds();
         drawBackground(frame);
-        drawContent(mx-w.x, my+scrolledPixels()-w.y, frame);
+        drawContent(mx - w.x, my + scrolledPixels() - w.y, frame);
         drawOverlay(frame);
         drawScrollbar(frame);
     }
@@ -192,24 +191,22 @@ public abstract class GuiScrollPane extends GuiWidget
     public abstract void drawContent(int mx, int my, float frame);
 
     public void drawOverlay(float frame) {
-        //outlines
-        drawRect(x, y - 1, x + width, y, 0xffa0a0a0);//top
-        drawRect(x, y + height, x + width, y + height + 1, 0xffa0a0a0);//bottom
-        drawRect(x - 1, y - 1, x, y + height + 1, 0xffa0a0a0);//left
-        drawRect(x + width, y - 1, x + width + 1, y + height + 1, 0xffa0a0a0);//right
+        // outlines
+        drawRect(x, y - 1, x + width, y, 0xffa0a0a0); // top
+        drawRect(x, y + height, x + width, y + height + 1, 0xffa0a0a0); // bottom
+        drawRect(x - 1, y - 1, x, y + height + 1, 0xffa0a0a0); // left
+        drawRect(x + width, y - 1, x + width + 1, y + height + 1, 0xffa0a0a0); // right
     }
 
     public void drawScrollbar(float frame) {
         Rectangle r = scrollbarBounds();
 
-        drawRect(r.x, r.y, r.x + r.width, r.y + r.height, 0xFF8B8B8B);//corners
-        drawRect(r.x, r.y, r.x + r.width - 1, r.y + r.height - 1, 0xFFF0F0F0);//topleft up
-        drawRect(r.x + 1, r.y + 1, r.x + r.width, r.y + r.height, 0xFF555555);//bottom right down
-        drawRect(r.x + 1, r.y + 1, r.x + r.width - 1, r.y + r.height - 1, 0xFFC6C6C6);//scrollbar
+        drawRect(r.x, r.y, r.x + r.width, r.y + r.height, 0xFF8B8B8B); // corners
+        drawRect(r.x, r.y, r.x + r.width - 1, r.y + r.height - 1, 0xFFF0F0F0); // topleft up
+        drawRect(r.x + 1, r.y + 1, r.x + r.width, r.y + r.height, 0xFF555555); // bottom right down
+        drawRect(r.x + 1, r.y + 1, r.x + r.width - 1, r.y + r.height - 1, 0xFFC6C6C6); // scrollbar
 
         int algn = scrollbarGuideAlignment();
-        if (algn != 0)
-            drawRect(algn > 0 ? r.x + r.width : r.x - 1, y, r.x, y + height, 0xFF808080);//lineguide
+        if (algn != 0) drawRect(algn > 0 ? r.x + r.width : r.x - 1, y, r.x, y + height, 0xFF808080); // lineguide
     }
-
 }

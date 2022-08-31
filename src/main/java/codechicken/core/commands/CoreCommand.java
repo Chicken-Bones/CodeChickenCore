@@ -1,25 +1,22 @@
 package codechicken.core.commands;
 
-import java.util.List;
-
 import codechicken.core.ServerUtils;
+import java.util.List;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
-public abstract class CoreCommand implements ICommand
-{
-    public class WCommandSender implements ICommandSender
-    {
+public abstract class CoreCommand implements ICommand {
+    public class WCommandSender implements ICommandSender {
         public ICommandSender wrapped;
 
         public WCommandSender(ICommandSender sender) {
@@ -78,15 +75,13 @@ public abstract class CoreCommand implements ICommand
     public void processCommand(ICommandSender listener, String[] args) {
         WCommandSender wsender = new WCommandSender(listener);
 
-        if (args.length < minimumParameters() ||
-                args.length == 1 && args[0].equals("help")) {
+        if (args.length < minimumParameters() || args.length == 1 && args[0].equals("help")) {
             printHelp(wsender);
             return;
         }
 
         String command = getCommandName();
-        for (String arg : args)
-            command += " " + arg;
+        for (String arg : args) command += " " + arg;
 
         handleCommand(command, wsender.getCommandSenderName(), args, wsender);
     }
@@ -131,15 +126,14 @@ public abstract class CoreCommand implements ICommand
     public boolean canCommandSenderUseCommand(ICommandSender var1) {
         if (OPOnly()) {
             if (var1 instanceof EntityPlayer)
-                return MinecraftServer.getServer().getConfigurationManager().func_152596_g(((EntityPlayer) var1).getGameProfile());
-            else if (var1 instanceof MinecraftServer)
-                return true;
-            else
-                return false;
+                return MinecraftServer.getServer()
+                        .getConfigurationManager()
+                        .func_152596_g(((EntityPlayer) var1).getGameProfile());
+            else if (var1 instanceof MinecraftServer) return true;
+            else return false;
         }
         return true;
     }
-
 
     public abstract int minimumParameters();
 }
