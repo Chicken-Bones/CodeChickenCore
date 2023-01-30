@@ -1,8 +1,8 @@
 minecraft {
     if (replaceGradleTokenInFile) {
-        replaceIn "CodeChickenCorePlugin.java"
+        tagReplacementFiles.add "CodeChickenCorePlugin.java"
         if(gradleTokenVersion) {
-            replace gradleTokenVersion, versionDetails().lastTag
+            injectedTags.put gradleTokenVersion, versionDetails().lastTag
         }
     }
 }
