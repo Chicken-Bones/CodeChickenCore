@@ -39,7 +39,7 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
     public static final String mcVersion = "[1.7.10]";
 
     @Deprecated
-    public static final String version = "GRADLETOKEN_VERSION";
+    public static final String version = Tags.VERSION;
 
     public static File minecraftDir;
     public static String currentMcVersion;

@@ -39,9 +39,9 @@ public class CodeChickenCoreModContainer extends DummyModContainer {
 
     private static ModMetadata getModMetadata() {
         final ModMetadata modMetadata = new ModMetadata();
-        modMetadata.name = "GRADLETOKEN_MODNAME";
-        modMetadata.modId = "GRADLETOKEN_MODID";
-        modMetadata.version = "GRADLETOKEN_VERSION";
+        modMetadata.name = "CodeChicken Core";
+        modMetadata.modId = "CodeChickenCore";
+        modMetadata.version = Tags.VERSION;
         return modMetadata;
     }
 
