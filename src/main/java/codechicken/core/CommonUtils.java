@@ -1,14 +1,17 @@
 package codechicken.core;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.FMLInjectionData;
 import java.io.File;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.FMLInjectionData;
+
 public class CommonUtils {
+
     public static boolean isClient() {
         return FMLCommonHandler.instance().getSide().isClient();
     }

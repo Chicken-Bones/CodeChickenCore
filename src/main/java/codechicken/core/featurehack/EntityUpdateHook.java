@@ -5,7 +5,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class EntityUpdateHook extends Entity {
+
     public static interface IUpdateCallback {
+
         public void onUpdate();
 
         public boolean isValid();

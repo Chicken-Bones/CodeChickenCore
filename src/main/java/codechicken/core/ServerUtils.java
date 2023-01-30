@@ -1,20 +1,24 @@
 package codechicken.core;
 
-import codechicken.lib.asm.ObfMapping;
-import com.mojang.authlib.GameProfile;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.IChatComponent;
 
+import codechicken.lib.asm.ObfMapping;
+
+import com.mojang.authlib.GameProfile;
+
 public class ServerUtils extends CommonUtils {
+
     public static MinecraftServer mc() {
         return MinecraftServer.getServer();
     }
@@ -49,17 +53,18 @@ public class ServerUtils extends CommonUtils {
 
     static {
         try {
-            field_152661_c = ReflectionManager.getField(new ObfMapping(
-                    "net/minecraft/server/management/PlayerProfileCache", "field_152661_c", "[Ljava/util/Map;"));
-            c_ProfileEntry = ServerUtils.class
-                    .getClassLoader()
+            field_152661_c = ReflectionManager.getField(
+                    new ObfMapping(
+                            "net/minecraft/server/management/PlayerProfileCache",
+                            "field_152661_c",
+                            "[Ljava/util/Map;"));
+            c_ProfileEntry = ServerUtils.class.getClassLoader()
                     .loadClass("net.minecraft.server.management.PlayerProfileCache$ProfileEntry");
-            func_152668_a = c_ProfileEntry.getDeclaredMethod(new ObfMapping(
+            func_152668_a = c_ProfileEntry.getDeclaredMethod(
+                    new ObfMapping(
                             "net/minecraft/server/management/PlayerProfileCache$ProfileEntry",
                             "func_152668_a",
-                            "()Lcom/mojang/authlib/GameProfile;")
-                    .toRuntime()
-                    .s_name);
+                            "()Lcom/mojang/authlib/GameProfile;").toRuntime().s_name);
             func_152668_a.setAccessible(true);
 
         } catch (Exception e) {

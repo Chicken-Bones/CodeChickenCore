@@ -4,6 +4,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 
 public abstract class ServerCommand extends CoreCommand {
+
     @Override
     public void processCommand(ICommandSender var1, String[] var2) {
         handleCommand(var2, (MinecraftServer) var1);

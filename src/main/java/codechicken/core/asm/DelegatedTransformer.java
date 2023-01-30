@@ -13,13 +13,16 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.launchwrapper.LaunchClassLoader;
+
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
 
 public class DelegatedTransformer implements IClassTransformer {
+
     private static ArrayList<IClassTransformer> delegatedTransformers;
     private static Method m_defineClass;
     private static Field f_cachedClasses;
@@ -27,8 +30,8 @@ public class DelegatedTransformer implements IClassTransformer {
     public DelegatedTransformer() {
         delegatedTransformers = new ArrayList<IClassTransformer>();
         try {
-            m_defineClass = ClassLoader.class.getDeclaredMethod(
-                    "defineClass", String.class, byte[].class, Integer.TYPE, Integer.TYPE);
+            m_defineClass = ClassLoader.class
+                    .getDeclaredMethod("defineClass", String.class, byte[].class, Integer.TYPE, Integer.TYPE);
             m_defineClass.setAccessible(true);
             f_cachedClasses = LaunchClassLoader.class.getDeclaredField("cachedClasses");
             f_cachedClasses.setAccessible(true);
@@ -53,9 +56,10 @@ public class DelegatedTransformer implements IClassTransformer {
             if (bytes == null) {
                 String resourceName = transformer.replace('.', '/') + ".class";
                 ZipEntry entry = jar.getEntry(resourceName);
-                if (entry == null)
-                    throw new Exception("Failed to add transformer: " + transformer + ". Entry not found in jar file "
-                            + jarFile.getName());
+                if (entry == null) throw new Exception(
+                        "Failed to add transformer: " + transformer
+                                + ". Entry not found in jar file "
+                                + jarFile.getName());
 
                 bytes = readFully(jar.getInputStream(entry));
             }
@@ -63,14 +67,12 @@ public class DelegatedTransformer implements IClassTransformer {
             defineDependancies(bytes, jar, jarFile);
             Class<?> clazz = defineClass(transformer, bytes);
 
-            if (!IClassTransformer.class.isAssignableFrom(clazz))
-                throw new Exception(
-                        "Failed to add transformer: " + transformer + " is not an instance of IClassTransformer");
+            if (!IClassTransformer.class.isAssignableFrom(clazz)) throw new Exception(
+                    "Failed to add transformer: " + transformer + " is not an instance of IClassTransformer");
 
             IClassTransformer classTransformer;
             try {
-                classTransformer = (IClassTransformer)
-                        clazz.getDeclaredConstructor(File.class).newInstance(jarFile);
+                classTransformer = (IClassTransformer) clazz.getDeclaredConstructor(File.class).newInstance(jarFile);
             } catch (NoSuchMethodException nsme) {
                 classTransformer = (IClassTransformer) clazz.newInstance();
             }

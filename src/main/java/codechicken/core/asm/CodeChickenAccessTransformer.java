@@ -1,13 +1,17 @@
 package codechicken.core.asm;
 
-import codechicken.lib.asm.ObfMapping;
-import com.google.common.collect.ImmutableBiMap;
-import cpw.mods.fml.common.asm.transformers.AccessTransformer;
-import cpw.mods.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
+import codechicken.lib.asm.ObfMapping;
+
+import com.google.common.collect.ImmutableBiMap;
+
+import cpw.mods.fml.common.asm.transformers.AccessTransformer;
+import cpw.mods.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
+
 public class CodeChickenAccessTransformer extends AccessTransformer {
+
     private static boolean makeAllPublic;
     private static Field f_classNameBiMap;
     private static Object emptyMap = ImmutableBiMap.of();
@@ -20,12 +24,10 @@ public class CodeChickenAccessTransformer extends AccessTransformer {
     private void loadPublicConfig() {
         if (ObfMapping.obfuscated) return;
 
-        makeAllPublic = CodeChickenCoreModContainer.config
-                .getTag("dev.runtimePublic")
-                .setComment(
-                        "Enabling this setting will make all minecraft classes public at runtime in MCP just as they are in modloader."
-                                + "\nYou should ONLY use this when you are testing with a mod that relies on runtime publicity and doesn't include access transformers."
-                                + "\nSuch mods are doing the wrong thing and should be fixed.")
+        makeAllPublic = CodeChickenCoreModContainer.config.getTag("dev.runtimePublic").setComment(
+                "Enabling this setting will make all minecraft classes public at runtime in MCP just as they are in modloader."
+                        + "\nYou should ONLY use this when you are testing with a mod that relies on runtime publicity and doesn't include access transformers."
+                        + "\nSuch mods are doing the wrong thing and should be fixed.")
                 .getBooleanValue(false);
 
         if (!makeAllPublic) return;

@@ -1,12 +1,5 @@
 package codechicken.core;
 
-import codechicken.core.launch.CodeChickenCorePlugin;
-import codechicken.lib.asm.ASMHelper;
-import com.google.common.collect.ImmutableList;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModClassLoader;
-import cpw.mods.fml.relauncher.CoreModManager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,10 +8,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
 import net.minecraft.launchwrapper.Launch;
+
 import org.objectweb.asm.tree.ClassNode;
 
+import codechicken.core.launch.CodeChickenCorePlugin;
+import codechicken.lib.asm.ASMHelper;
+
+import com.google.common.collect.ImmutableList;
+
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.ModClassLoader;
+import cpw.mods.fml.relauncher.CoreModManager;
+
 public class ClassDiscoverer {
+
     public IStringMatcher matcher;
     public String[] superclasses;
     public ArrayList<Class<?>> classes;
@@ -35,13 +41,12 @@ public class ClassDiscoverer {
     }
 
     public ClassDiscoverer(Class<?>... superclasses) {
-        this(
-                new IStringMatcher() {
-                    public boolean matches(String test) {
-                        return true;
-                    }
-                },
-                superclasses);
+        this(new IStringMatcher() {
+
+            public boolean matches(String test) {
+                return true;
+            }
+        }, superclasses);
     }
 
     public ArrayList<Class<?>> findClasses() {
@@ -79,10 +84,8 @@ public class ClassDiscoverer {
     }
 
     private void findClasspathMods() {
-        List<String> knownLibraries = ImmutableList.<String>builder()
-                .addAll(modClassLoader.getDefaultLibraries())
-                .addAll(CoreModManager.getLoadedCoremods())
-                .build();
+        List<String> knownLibraries = ImmutableList.<String>builder().addAll(modClassLoader.getDefaultLibraries())
+                .addAll(CoreModManager.getLoadedCoremods()).build();
         File[] minecraftSources = modClassLoader.getParentSources();
         HashSet<String> searchedSources = new HashSet<String>();
         for (File minecraftSource : minecraftSources) {
@@ -98,7 +101,8 @@ public class ClassDiscoverer {
                         readFromZipFile(minecraftSource);
                     } catch (Exception e) {
                         CodeChickenCorePlugin.logger.error(
-                                "Failed to scan " + minecraftSource.getAbsolutePath() + ", the zip file is invalid", e);
+                                "Failed to scan " + minecraftSource.getAbsolutePath() + ", the zip file is invalid",
+                                e);
                     }
                 }
             } else if (minecraftSource.isDirectory()) {

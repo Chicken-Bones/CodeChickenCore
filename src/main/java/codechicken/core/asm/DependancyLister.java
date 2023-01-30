@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Label;
@@ -12,9 +13,11 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 public class DependancyLister extends ClassVisitor {
+
     private static Pattern classdesc = Pattern.compile("L(.+?);");
 
     private class DependancyMethodLister extends MethodVisitor {
+
         public DependancyMethodLister(int api) {
             super(api);
         }

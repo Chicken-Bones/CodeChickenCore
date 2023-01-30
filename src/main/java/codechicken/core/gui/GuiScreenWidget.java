@@ -1,14 +1,18 @@
 package codechicken.core.gui;
 
-import codechicken.lib.gui.GuiDraw;
 import java.awt.Point;
 import java.util.ArrayList;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import codechicken.lib.gui.GuiDraw;
+
 public class GuiScreenWidget extends GuiScreen implements IGuiActionListener {
+
     public ArrayList<GuiWidget> widgets = new ArrayList<GuiWidget>();
     public int xSize, ySize, guiTop, guiLeft;
 

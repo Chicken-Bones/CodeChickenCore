@@ -1,25 +1,30 @@
 package codechicken.core.asm;
 
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+
+import net.minecraftforge.common.MinecraftForge;
+
 import codechicken.core.CCUpdateChecker;
 import codechicken.core.ClientUtils;
 import codechicken.core.featurehack.LiquidTextures;
 import codechicken.core.internal.CCCEventHandler;
 import codechicken.core.launch.CodeChickenCorePlugin;
 import codechicken.lib.config.ConfigFile;
+
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.versioning.ArtifactVersion;
 import cpw.mods.fml.common.versioning.VersionParser;
 import cpw.mods.fml.common.versioning.VersionRange;
-import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
-import net.minecraftforge.common.MinecraftForge;
 
 public class CodeChickenCoreModContainer extends DummyModContainer {
+
     public static ConfigFile config;
 
     public static void loadConfig() {

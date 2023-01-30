@@ -4,6 +4,7 @@ import codechicken.lib.asm.ObfMapping;
 import codechicken.obfuscator.ObfuscationMap.ObfuscationEntry;
 
 public class ObfDirection {
+
     public boolean obfuscate;
     public boolean srg;
     public boolean srg_cst;

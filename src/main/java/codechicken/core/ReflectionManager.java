@@ -1,13 +1,15 @@
 package codechicken.core;
 
-import codechicken.lib.asm.ObfMapping;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import codechicken.lib.asm.ObfMapping;
+
 public class ReflectionManager {
+
     public static HashMap<Class<?>, Class<?>> primitiveWrappers = new HashMap<Class<?>, Class<?>>();
 
     static {
@@ -27,12 +29,12 @@ public class ReflectionManager {
             if (primitive == Long.class && Long.class.isInstance(obj)) return true;
             if ((primitive == Long.class || primitive == Integer.class) && Integer.class.isInstance(obj)) return true;
             if ((primitive == Long.class || primitive == Integer.class || primitive == Short.class)
-                    && Short.class.isInstance(obj)) return true;
-            if ((primitive == Long.class
-                            || primitive == Integer.class
-                            || primitive == Short.class
-                            || primitive == Byte.class)
-                    && Integer.class.isInstance(obj)) return true;
+                    && Short.class.isInstance(obj))
+                return true;
+            if ((primitive == Long.class || primitive == Integer.class
+                    || primitive == Short.class
+                    || primitive == Byte.class) && Integer.class.isInstance(obj))
+                return true;
 
             if (primitive == Double.class && Double.class.isInstance(obj)) return true;
             if ((primitive == Double.class || primitive == Float.class) && Float.class.isInstance(obj)) return true;
@@ -64,7 +66,7 @@ public class ReflectionManager {
 
     public static void setField(Class<?> class1, Object instance, String name, Object value)
             throws IllegalArgumentException, IllegalAccessException {
-        setField(class1, instance, new String[] {name}, value);
+        setField(class1, instance, new String[] { name }, value);
     }
 
     public static void setField(Class<?> class1, Object instance, String[] names, Object value)
@@ -95,19 +97,15 @@ public class ReflectionManager {
     }
 
     /**
-     * Static function
-     * void return type
-     * single name
+     * Static function void return type single name
      */
     public static void callMethod(Class<?> class1, String name, Object... params)
             throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        callMethod(class1, null, new String[] {name}, params);
+        callMethod(class1, null, new String[] { name }, params);
     }
 
     /**
-     * Static function
-     * void return type
-     * single name
+     * Static function void return type single name
      */
     public static void callMethod(Class<?> class1, String[] names, Object... params)
             throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
@@ -115,12 +113,11 @@ public class ReflectionManager {
     }
 
     /**
-     * void return type
-     * single name
+     * void return type single name
      */
     public static void callMethod(Class<?> class1, Object instance, String name, Object... params)
             throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        callMethod(class1, null, instance, new String[] {name}, params);
+        callMethod(class1, null, instance, new String[] { name }, params);
     }
 
     /**
@@ -132,12 +129,11 @@ public class ReflectionManager {
     }
 
     /**
-     * Static method
-     * single name
+     * Static method single name
      */
     public static <R> R callMethod(Class<?> class1, Class<R> returntype, String name, Object... params)
             throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        return callMethod(class1, returntype, null, new String[] {name}, params);
+        return callMethod(class1, returntype, null, new String[] { name }, params);
     }
 
     /**
@@ -153,14 +149,12 @@ public class ReflectionManager {
      */
     public static <R> R callMethod(Class<?> class1, Class<R> returntype, Object instance, String name, Object... params)
             throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        return callMethod(class1, returntype, instance, new String[] {name}, params);
+        return callMethod(class1, returntype, instance, new String[] { name }, params);
     }
 
-    public static <R> R callMethod(
-            Class<?> class1, Class<R> returntype, Object instance, String[] names, Object... params)
-            throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        nextMethod:
-        for (Method method : class1.getDeclaredMethods()) {
+    public static <R> R callMethod(Class<?> class1, Class<R> returntype, Object instance, String[] names,
+            Object... params) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+        nextMethod: for (Method method : class1.getDeclaredMethods()) {
             boolean match = false;
             for (String name : names) {
                 if (method.getName().equals(name)) {
@@ -204,8 +198,7 @@ public class ReflectionManager {
 
     public static <T> T newInstance(Class<T> class1, Object... params)
             throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        nextMethod:
-        for (Constructor<?> constructor : class1.getDeclaredConstructors()) {
+        nextMethod: for (Constructor<?> constructor : class1.getDeclaredConstructors()) {
             Class<?>[] paramtypes = constructor.getParameterTypes();
             if (paramtypes.length != params.length) continue;
 

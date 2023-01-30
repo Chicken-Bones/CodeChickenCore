@@ -4,9 +4,11 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
+
 import org.lwjgl.opengl.GL11;
 
 public class RenderEntityRenderHook extends Render {
+
     @Override
     public void doRender(Entity entity, double x, double y, double z, float f, float frame) {
         EntityRenderHook hook = (EntityRenderHook) entity;

@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class TextureWaterFlowFX extends TextureFX {
+
     protected float[] field_76880_g = new float[256];
     protected float[] field_76883_h = new float[256];
     protected float[] field_76884_i = new float[256];
@@ -51,15 +52,15 @@ public class TextureWaterFlowFX extends TextureFX {
                     var3 += this.field_76880_g[var5 + var6 * tileSizeBase];
                 }
 
-                this.field_76883_h[var1 + var2 * tileSizeBase] =
-                        var3 / 3.2F + this.field_76884_i[var1 + var2 * tileSizeBase] * 0.8F;
+                this.field_76883_h[var1 + var2 * tileSizeBase] = var3 / 3.2F
+                        + this.field_76884_i[var1 + var2 * tileSizeBase] * 0.8F;
             }
         }
 
         for (var1 = 0; var1 < tileSizeBase; ++var1) {
             for (var2 = 0; var2 < tileSizeBase; ++var2) {
-                this.field_76884_i[var1 + var2 * tileSizeBase] +=
-                        this.field_76881_j[var1 + var2 * tileSizeBase] * 0.05F;
+                this.field_76884_i[var1 + var2 * tileSizeBase] += this.field_76881_j[var1 + var2 * tileSizeBase]
+                        * 0.05F;
 
                 if (this.field_76884_i[var1 + var2 * tileSizeBase] < 0.0F) {
                     this.field_76884_i[var1 + var2 * tileSizeBase] = 0.0F;

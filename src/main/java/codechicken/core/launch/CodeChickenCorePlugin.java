@@ -1,16 +1,5 @@
 package codechicken.core.launch;
 
-import codechicken.core.asm.*;
-import codechicken.lib.config.ConfigTag;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.versioning.DefaultArtifactVersion;
-import cpw.mods.fml.common.versioning.VersionParser;
-import cpw.mods.fml.relauncher.CoreModManager;
-import cpw.mods.fml.relauncher.FMLInjectionData;
-import cpw.mods.fml.relauncher.IFMLCallHook;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -22,16 +11,31 @@ import java.util.Map;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@TransformerExclusions(value = {"codechicken.core.asm", "codechicken.obfuscator"})
+import codechicken.core.asm.*;
+import codechicken.lib.config.ConfigTag;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.versioning.DefaultArtifactVersion;
+import cpw.mods.fml.common.versioning.VersionParser;
+import cpw.mods.fml.relauncher.CoreModManager;
+import cpw.mods.fml.relauncher.FMLInjectionData;
+import cpw.mods.fml.relauncher.IFMLCallHook;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
+
+@TransformerExclusions(value = { "codechicken.core.asm", "codechicken.obfuscator" })
 @MCVersion("1.7.10")
 public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
+
     public static final String mcVersion = "[1.7.10]";
 
     @Deprecated
@@ -54,20 +58,19 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
     private void injectDeobfPlugin() {
         try {
             Class<?> wrapperClass = Class.forName("cpw.mods.fml.relauncher.CoreModManager$FMLPluginWrapper");
-            Constructor wrapperConstructor = wrapperClass.getConstructor(
-                    String.class, IFMLLoadingPlugin.class, File.class, Integer.TYPE, String[].class);
+            Constructor wrapperConstructor = wrapperClass
+                    .getConstructor(String.class, IFMLLoadingPlugin.class, File.class, Integer.TYPE, String[].class);
             Field f_loadPlugins = CoreModManager.class.getDeclaredField("loadPlugins");
             wrapperConstructor.setAccessible(true);
             f_loadPlugins.setAccessible(true);
-            ((List) f_loadPlugins.get(null))
-                    .add(
-                            2,
-                            wrapperConstructor.newInstance(
-                                    "CCCDeobfPlugin",
-                                    new MCPDeobfuscationTransformer.LoadPlugin(),
-                                    null,
-                                    0,
-                                    new String[0]));
+            ((List) f_loadPlugins.get(null)).add(
+                    2,
+                    wrapperConstructor.newInstance(
+                            "CCCDeobfPlugin",
+                            new MCPDeobfuscationTransformer.LoadPlugin(),
+                            null,
+                            0,
+                            new String[0]));
         } catch (Exception e) {
             logger.error("Failed to inject MCPDeobfuscation Transformer", e);
         }
@@ -88,13 +91,13 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
             ep.setEditable(false);
             ep.setOpaque(false);
             ep.addHyperlinkListener(new HyperlinkListener() {
+
                 @Override
                 public void hyperlinkUpdate(HyperlinkEvent event) {
                     try {
                         if (event.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED))
                             Desktop.getDesktop().browse(event.getURL().toURI());
-                    } catch (Exception ignored) {
-                    }
+                    } catch (Exception ignored) {}
                 }
             });
 
@@ -134,45 +137,43 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
     }
 
     public static void systemCheck(ConfigTag checkRAM) {
-        long minBytes = parseSize(checkRAM.getTag("minRAM")
-                .setComment("Amount of RAM minimum this modpack needs to load")
-                .getValue("3GB"));
+        long minBytes = parseSize(
+                checkRAM.getTag("minRAM").setComment("Amount of RAM minimum this modpack needs to load")
+                        .getValue("3GB"));
         if (Runtime.getRuntime().maxMemory() < minBytes) {
             String err = "You should have at least " + humanReadableByteCountBin(minBytes)
                     + " of RAM but you have only allocated "
-                    + humanReadableByteCountBin(Runtime.getRuntime().maxMemory()) + ".";
+                    + humanReadableByteCountBin(Runtime.getRuntime().maxMemory())
+                    + ".";
             logger.error(err);
 
             JEditorPane ep = new JEditorPane(
                     "text/html",
-                    "<html>" + err + "<br>"
-                            + checkRAM.getTag("modPack")
-                                    .setComment("Name of the modpack")
+                    "<html>" + err
+                            + "<br>"
+                            + checkRAM.getTag("modPack").setComment("Name of the modpack")
                                     .getValue("Unidentified ModPack")
                             + " seriously won't run without enough RAM. "
-                            + checkRAM.getTag("wiki")
-                                    .setComment("Webpage describing RAM settings")
-                                    .getValue(
-                                            "See <a href=\"https://downloadmoreram.com\">DownloadMoreRam.com</a> for details.")
+                            + checkRAM.getTag("wiki").setComment("Webpage describing RAM settings").getValue(
+                                    "See <a href=\"https://downloadmoreram.com\">DownloadMoreRam.com</a> for details.")
                             + "<br>Recommended values are between "
-                            + checkRAM.getTag("recRAM")
-                                    .setComment("Lower bound of recommended RAM")
-                                    .getValue("4GB") + " and "
-                            + checkRAM.getTag("recRAMUpper")
-                                    .setComment("Upper bound of recommended RAM")
+                            + checkRAM.getTag("recRAM").setComment("Lower bound of recommended RAM").getValue("4GB")
+                            + " and "
+                            + checkRAM.getTag("recRAMUpper").setComment("Upper bound of recommended RAM")
                                     .getValue("6GB")
-                            + ". Check your launcher's JVM arguments." + "</html>");
+                            + ". Check your launcher's JVM arguments."
+                            + "</html>");
 
             ep.setEditable(false);
             ep.setOpaque(false);
             ep.addHyperlinkListener(new HyperlinkListener() {
+
                 @Override
                 public void hyperlinkUpdate(HyperlinkEvent event) {
                     try {
                         if (event.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED))
                             Desktop.getDesktop().browse(event.getURL().toURI());
-                    } catch (Exception ignored) {
-                    }
+                    } catch (Exception ignored) {}
                 }
             });
 
@@ -185,12 +186,8 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
     @Override
     public String[] getASMTransformerClass() {
         versionCheck(mcVersion, "CodeChickenCore");
-        return new String[] {
-            "codechicken.lib.asm.ClassHeirachyManager",
-            "codechicken.core.asm.TweakTransformer",
-            "codechicken.core.asm.DelegatedTransformer",
-            "codechicken.core.asm.DefaultImplementationTransformer"
-        };
+        return new String[] { "codechicken.lib.asm.ClassHeirachyManager", "codechicken.core.asm.TweakTransformer",
+                "codechicken.core.asm.DelegatedTransformer", "codechicken.core.asm.DefaultImplementationTransformer" };
     }
 
     @Override
@@ -215,13 +212,12 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
     public Void call() {
         CodeChickenCoreModContainer.loadConfig();
         ConfigTag checkRAM;
-        checkRAM = CodeChickenCoreModContainer.config
-                .getTag("checks")
-                .setComment("Configuration options for checking various requirements for a modpack.")
-                .useBraces();
+        checkRAM = CodeChickenCoreModContainer.config.getTag("checks")
+                .setComment("Configuration options for checking various requirements for a modpack.").useBraces();
         if (checkRAM.getTag("checkRAM")
                 .setComment("If set to true, check RAM available for Minecraft before continuing to load")
-                .getBooleanValue(false)) systemCheck(checkRAM);
+                .getBooleanValue(false))
+            systemCheck(checkRAM);
         TweakTransformer.load();
         scanCodeChickenMods();
 

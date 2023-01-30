@@ -2,9 +2,9 @@ package codechicken.obfuscator;
 
 import static org.objectweb.asm.tree.AbstractInsnNode.*;
 
-import codechicken.lib.asm.ObfMapping;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
@@ -12,7 +12,10 @@ import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
+import codechicken.lib.asm.ObfMapping;
+
 public class ConstantObfuscator implements Opcodes {
+
     public ObfRemapper obf;
     public List<ObfMapping> descCalls = new LinkedList<ObfMapping>();
     public List<ObfMapping> classCalls = new LinkedList<ObfMapping>();

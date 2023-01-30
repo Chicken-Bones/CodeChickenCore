@@ -3,13 +3,6 @@ package codechicken.core;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glReadPixels;
 
-import codechicken.core.launch.CodeChickenCorePlugin;
-import codechicken.lib.gui.GuiDraw;
-import codechicken.lib.vec.Rectangle4i;
-import cpw.mods.fml.client.GuiModList;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.common.ModMetadata;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,14 +10,26 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.List;
+
 import javax.imageio.ImageIO;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import codechicken.core.launch.CodeChickenCorePlugin;
+import codechicken.lib.gui.GuiDraw;
+import codechicken.lib.vec.Rectangle4i;
+import cpw.mods.fml.client.GuiModList;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.ModContainer;
+import cpw.mods.fml.common.ModMetadata;
+
 public class GuiModListScroll {
+
     private static List<ModContainer> scrollMods = new LinkedList<ModContainer>();
 
     public static void register(Object mod) {
@@ -45,9 +50,8 @@ public class GuiModListScroll {
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glReadPixels(0, 0, d.width, d.height, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, buf);
-        for (int i = 0; i < d.width; i++)
-            for (int j = 0; j < d.height; j++)
-                img.setRGB(i, d.height - j - 1, buf.get(j * d.width + i) == 0 ? 0 : 0xFFFFFF);
+        for (int i = 0; i < d.width; i++) for (int j = 0; j < d.height; j++)
+            img.setRGB(i, d.height - j - 1, buf.get(j * d.width + i) == 0 ? 0 : 0xFFFFFF);
         try {
             ImageIO.write(img, "png", new File("stencil" + x + ".png"));
         } catch (IOException e) {
@@ -109,9 +113,7 @@ public class GuiModListScroll {
         glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 
         String description = selectedMod.getMetadata().description;
-        int height = GuiDraw.fontRenderer
-                        .listFormattedStringToWidth(description, x2 - x1)
-                        .size()
+        int height = GuiDraw.fontRenderer.listFormattedStringToWidth(description, x2 - x1).size()
                 * GuiDraw.fontRenderer.FONT_HEIGHT;
 
         boolean needsScroll = height > y2 - y1draw;
@@ -142,8 +144,8 @@ public class GuiModListScroll {
     }
 
     /**
-     * Does not add the last 10 px space before the description normally starts
-     * Ignores empty child mods expecting a background draw overwrite
+     * Does not add the last 10 px space before the description normally starts Ignores empty child mods expecting a
+     * background draw overwrite
      */
     private static int calcDescY(GuiModList gui, ModContainer mod) {
         ModMetadata meta = mod.getMetadata();

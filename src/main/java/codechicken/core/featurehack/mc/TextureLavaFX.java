@@ -1,13 +1,15 @@
 package codechicken.core.featurehack.mc;
 
+import net.minecraft.util.MathHelper;
+
 import codechicken.lib.colour.ColourRGBA;
 import codechicken.lib.render.TextureFX;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.util.MathHelper;
 
 @SideOnly(Side.CLIENT)
 public class TextureLavaFX extends TextureFX {
+
     protected float[] field_76876_g = new float[256];
     protected float[] field_76878_h = new float[256];
     protected float[] field_76879_i = new float[256];
@@ -52,16 +54,16 @@ public class TextureLavaFX extends TextureFX {
 
                 this.field_76878_h[var1 + var2 * tileSizeBase] = var3 / 10.0F
                         + (this.field_76879_i[(var1 + 0 & tileSizeMask) + (var2 + 0 & tileSizeMask) * tileSizeBase]
-                                        + this.field_76879_i[
-                                                (var1 + 1 & tileSizeMask) + (var2 + 0 & tileSizeMask) * tileSizeBase]
-                                        + this.field_76879_i[
-                                                (var1 + 1 & tileSizeMask) + (var2 + 1 & tileSizeMask) * tileSizeBase]
-                                        + this.field_76879_i[
-                                                (var1 + 0 & tileSizeMask) + (var2 + 1 & tileSizeMask) * tileSizeBase])
+                                + this.field_76879_i[(var1 + 1 & tileSizeMask)
+                                        + (var2 + 0 & tileSizeMask) * tileSizeBase]
+                                + this.field_76879_i[(var1 + 1 & tileSizeMask)
+                                        + (var2 + 1 & tileSizeMask) * tileSizeBase]
+                                + this.field_76879_i[(var1 + 0 & tileSizeMask)
+                                        + (var2 + 1 & tileSizeMask) * tileSizeBase])
                                 / 4.0F
                                 * 0.8F;
-                this.field_76879_i[var1 + var2 * tileSizeBase] +=
-                        this.field_76877_j[var1 + var2 * tileSizeBase] * 0.01F;
+                this.field_76879_i[var1 + var2 * tileSizeBase] += this.field_76877_j[var1 + var2 * tileSizeBase]
+                        * 0.01F;
 
                 if (this.field_76879_i[var1 + var2 * tileSizeBase] < 0.0F) {
                     this.field_76879_i[var1 + var2 * tileSizeBase] = 0.0F;

@@ -1,9 +1,11 @@
 package codechicken.obfuscator;
 
-import codechicken.obfuscator.ObfuscationMap.ObfuscationEntry;
 import org.objectweb.asm.commons.Remapper;
 
+import codechicken.obfuscator.ObfuscationMap.ObfuscationEntry;
+
 public class ObfRemapper extends Remapper {
+
     public final ObfuscationMap obf;
     public ObfDirection dir;
 

@@ -3,23 +3,23 @@ package codechicken.core.featurehack;
 import static net.minecraftforge.common.util.ForgeDirection.UP;
 
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
 public class TweakTransformerHelper {
+
     public static void quenchFireTick(World world, int x, int y, int z, Random rand) {
         Block base = world.getBlock(x, y - 1, z);
         boolean supported = (base != null && base.isFireSource(world, x, y - 1, z, UP));
 
-        if (!Blocks.fire.canPlaceBlockAt(world, x, y, z)
-                || !supported
-                        && world.isRaining()
-                        && (world.canLightningStrikeAt(x, y, z)
-                                || world.canLightningStrikeAt(x - 1, y, z)
-                                || world.canLightningStrikeAt(x + 1, y, z)
-                                || world.canLightningStrikeAt(x, y, z - 1)
-                                || world.canLightningStrikeAt(x, y, z + 1))) world.setBlockToAir(x, y, z);
+        if (!Blocks.fire.canPlaceBlockAt(world, x, y, z) || !supported && world.isRaining()
+                && (world.canLightningStrikeAt(x, y, z) || world.canLightningStrikeAt(x - 1, y, z)
+                        || world.canLightningStrikeAt(x + 1, y, z)
+                        || world.canLightningStrikeAt(x, y, z - 1)
+                        || world.canLightningStrikeAt(x, y, z + 1)))
+            world.setBlockToAir(x, y, z);
         else {
             int meta = world.getBlockMetadata(x, y, z);
             if (meta < 15) world.setBlockMetadataWithNotify(x, y, z, meta + rand.nextInt(3) / 2, 0);

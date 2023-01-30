@@ -1,10 +1,12 @@
 package codechicken.core.gui;
 
-import codechicken.lib.math.MathHelper;
-import codechicken.lib.vec.Rectangle4i;
 import java.awt.*;
 
+import codechicken.lib.math.MathHelper;
+import codechicken.lib.vec.Rectangle4i;
+
 public abstract class GuiScrollPane extends GuiWidget {
+
     protected int scrollclicky = -1;
     protected float scrollpercent;
     protected int scrollmousey;
@@ -28,7 +30,10 @@ public abstract class GuiScrollPane extends GuiWidget {
 
     public Rectangle windowBounds() {
         return new Rectangle(
-                x + marginleft, y + margintop, width - marginleft - marginright, height - margintop - marginbottom);
+                x + marginleft,
+                y + margintop,
+                width - marginleft - marginright,
+                height - margintop - marginbottom);
     }
 
     public abstract int contentHeight();
@@ -103,13 +108,8 @@ public abstract class GuiScrollPane extends GuiWidget {
         Rectangle w = windowBounds();
         int barempty = height - sbar.height;
 
-        if (button == 0
-                && sbar.height < height
-                && // the scroll bar can move (not full length)
-                mx >= sbar.x
-                && mx <= sbar.x + sbar.width
-                && my >= y
-                && my <= y + height) // in the scroll pane
+        if (button == 0 && sbar.height < height && // the scroll bar can move (not full length)
+                mx >= sbar.x && mx <= sbar.x + sbar.width && my >= y && my <= y + height) // in the scroll pane
         {
             if (my < sbar.y) {
                 percentscrolled = (my - y) / (float) barempty;
@@ -126,14 +126,12 @@ public abstract class GuiScrollPane extends GuiWidget {
     }
 
     /**
-     * Mouse down on slot area
-     * Coordinates relative to slot content area
+     * Mouse down on slot area Coordinates relative to slot content area
      */
     public void slotDown(int mx, int my, int button) {}
 
     /**
-     * Mouse up on slot area
-     * Coordinates relative to slot content area
+     * Mouse up on slot area Coordinates relative to slot content area
      */
     public void slotUp(int mx, int my, int button) {}
 
@@ -141,7 +139,7 @@ public abstract class GuiScrollPane extends GuiWidget {
     public void mouseMovedOrUp(int mx, int my, int button) {
         Rectangle w = windowBounds();
         if (isScrolling() && button == 0) // we were scrolling and we released mouse
-        scrollclicky = -1;
+            scrollclicky = -1;
         else if (w.contains(mx, my)) slotUp(mx - w.x, my - w.y + scrolledPixels(), button);
     }
 

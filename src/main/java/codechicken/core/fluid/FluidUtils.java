@@ -1,6 +1,5 @@
 package codechicken.core.fluid;
 
-import codechicken.lib.inventory.InventoryUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,7 +10,10 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 
+import codechicken.lib.inventory.InventoryUtils;
+
 public class FluidUtils {
+
     public static int B = FluidContainerRegistry.BUCKET_VOLUME;
     public static FluidStack water = new FluidStack(FluidRegistry.WATER, 1000);
     public static FluidStack lava = new FluidStack(FluidRegistry.LAVA, 1000);
@@ -68,8 +70,7 @@ public class FluidUtils {
     }
 
     public static NBTTagCompound write(FluidStack fluid, NBTTagCompound tag) {
-        return fluid == null || fluid.getFluid() == null
-                ? new NBTTagCompound()
+        return fluid == null || fluid.getFluid() == null ? new NBTTagCompound()
                 : fluid.writeToNBT(new NBTTagCompound());
     }
 

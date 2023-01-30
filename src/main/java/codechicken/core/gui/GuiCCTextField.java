@@ -2,9 +2,11 @@ package codechicken.core.gui;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ChatAllowedCharacters;
+
 import org.lwjgl.input.Keyboard;
 
 public class GuiCCTextField extends GuiWidget {
+
     private String text;
     private boolean isFocused;
     private boolean isEnabled;
@@ -63,10 +65,9 @@ public class GuiCCTextField extends GuiWidget {
     public void keyTyped(char c, int keycode) {
         if (!isEnabled || !isFocused) return;
 
-        /*if(c == '\t')//tab
-        {
-            parentGuiScreen.selectNextField();
-        }*/
+        /*
+         * if(c == '\t')//tab { parentGuiScreen.selectNextField(); }
+         */
         if (c == '\026') // paste
         {
             String s = GuiScreen.getClipboardString();
@@ -90,8 +91,7 @@ public class GuiCCTextField extends GuiWidget {
     }
 
     public boolean canAddChar(char c) {
-        return allowedCharacters == null
-                ? ChatAllowedCharacters.isAllowedCharacter(c)
+        return allowedCharacters == null ? ChatAllowedCharacters.isAllowedCharacter(c)
                 : allowedCharacters.indexOf(c) >= 0;
     }
 

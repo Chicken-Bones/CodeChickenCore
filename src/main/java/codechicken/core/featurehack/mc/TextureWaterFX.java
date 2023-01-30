@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class TextureWaterFX extends TextureFX {
+
     /** red RGB value for water texture */
     protected float[] red = new float[256];
 

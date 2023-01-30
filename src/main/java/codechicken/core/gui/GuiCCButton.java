@@ -3,9 +3,11 @@ package codechicken.core.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 public class GuiCCButton extends GuiWidget {
+
     public String text;
     public String actionCommand;
     private boolean isEnabled = true;
@@ -32,8 +34,7 @@ public class GuiCCButton extends GuiWidget {
     public void mouseClicked(int x, int y, int button) {
         if (isEnabled && pointInside(x, y) && actionCommand != null) {
             sendAction(actionCommand, button);
-            Minecraft.getMinecraft()
-                    .getSoundHandler()
+            Minecraft.getMinecraft().getSoundHandler()
                     .playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
         }
     }
@@ -52,8 +53,8 @@ public class GuiCCButton extends GuiWidget {
         int state = getButtonTex(mousex, mousey);
         drawTexturedModalRect(x, y, 0, 46 + state * 20, width / 2, height / 2); // top left
         drawTexturedModalRect(x + width / 2, y, 200 - width / 2, 46 + state * 20, width / 2, height / 2); // top right
-        drawTexturedModalRect(
-                x, y + height / 2, 0, 46 + state * 20 + 20 - height / 2, width / 2, height / 2); // bottom left
+        drawTexturedModalRect(x, y + height / 2, 0, 46 + state * 20 + 20 - height / 2, width / 2, height / 2); // bottom
+                                                                                                               // left
         drawTexturedModalRect(
                 x + width / 2,
                 y + height / 2,

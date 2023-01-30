@@ -1,8 +1,5 @@
 package codechicken.obfuscator;
 
-import codechicken.lib.asm.ObfMapping;
-import com.google.common.base.Function;
-import com.google.common.collect.ArrayListMultimap;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,8 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import codechicken.lib.asm.ObfMapping;
+
+import com.google.common.base.Function;
+import com.google.common.collect.ArrayListMultimap;
+
 public class ObfuscationMap {
+
     public class ObfuscationEntry {
+
         public final ObfMapping obf;
         public final ObfMapping srg;
         public final ObfMapping mcp;
@@ -24,6 +28,7 @@ public class ObfuscationMap {
     }
 
     private class ClassEntry extends ObfuscationEntry {
+
         public Map<String, ObfuscationEntry> mcpMap = new HashMap<String, ObfuscationEntry>();
         public Map<String, ObfuscationEntry> srgMap = new HashMap<String, ObfuscationEntry>();
         public Map<String, ObfuscationEntry> obfMap = new HashMap<String, ObfuscationEntry>();
@@ -81,8 +86,8 @@ public class ObfuscationMap {
         return addEntry(new ObfMapping(obf_owner, obf_name, ""), new ObfMapping(srg_owner, srg_name, ""));
     }
 
-    public ObfuscationEntry addMethod(
-            String obf_owner, String obf_name, String obf_desc, String srg_owner, String srg_name, String srg_desc) {
+    public ObfuscationEntry addMethod(String obf_owner, String obf_name, String obf_desc, String srg_owner,
+            String srg_name, String srg_desc) {
         return addEntry(new ObfMapping(obf_owner, obf_name, obf_desc), new ObfMapping(srg_owner, srg_name, srg_desc));
     }
 
@@ -161,10 +166,8 @@ public class ObfuscationMap {
     private ObfuscationEntry getOrCreateClassEntry(String name) {
         ObfuscationEntry e = lookupObfClass(name);
         if (e == null) e = lookupMcpClass(name);
-        if (e == null)
-            e = addClass(
-                    name,
-                    name); // if the class isn't in obf or srg maps, it must be a custom mod class with no name change.
+        if (e == null) e = addClass(name, name); // if the class isn't in obf or srg maps, it must be a custom mod class
+                                                 // with no name change.
         return e;
     }
 
@@ -207,7 +210,7 @@ public class ObfuscationMap {
 
     public static String[] splitLast(String s, char c) {
         int i = s.lastIndexOf(c);
-        return new String[] {s.substring(0, i), s.substring(i + 1)};
+        return new String[] { s.substring(0, i), s.substring(i + 1) };
     }
 
     public static String[] split4(String s, char c) {
@@ -230,6 +233,7 @@ public class ObfuscationMap {
         log.out().println("Parsing " + srgs.getName());
 
         Function<String, Void> function = new Function<String, Void>() {
+
             @Override
             public Void apply(String line) {
                 int hpos = line.indexOf('#');
@@ -261,6 +265,7 @@ public class ObfuscationMap {
         log.out().println("Parsing " + csv.getName());
 
         Function<String, Void> function = new Function<String, Void>() {
+
             @Override
             public Void apply(String line) {
                 if (line.startsWith("func_") || line.startsWith("field_")) {

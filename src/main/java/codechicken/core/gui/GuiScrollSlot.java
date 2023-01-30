@@ -1,9 +1,11 @@
 package codechicken.core.gui;
 
 import java.awt.*;
+
 import org.lwjgl.input.Keyboard;
 
 public abstract class GuiScrollSlot extends GuiScrollPane {
+
     protected String actionCommand;
     public boolean focused;
     protected ClickCounter<Integer> click = new ClickCounter<Integer>();

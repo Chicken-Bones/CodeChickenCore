@@ -1,6 +1,5 @@
 package codechicken.obfuscator;
 
-import com.google.common.base.Function;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,11 +8,15 @@ import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.commons.RemappingClassAdapter;
 import org.objectweb.asm.tree.ClassNode;
 
+import com.google.common.base.Function;
+
 public class ObfuscationRun implements ILogStreams {
+
     public final ObfDirection obfDir;
     public final ObfuscationMap obf;
     public final ObfRemapper obfMapper;
@@ -98,27 +101,24 @@ public class ObfuscationRun implements ILogStreams {
     }
 
     public static Map<String, String> fillDefaults(Map<String, String> config) {
-        if (!config.containsKey("excludedPackages"))
-            config.put(
-                    "excludedPackages",
-                    "java/;sun/;javax/;scala/;" + "argo/;org/lwjgl/;org/objectweb/;org/bouncycastle/;com/google/");
+        if (!config.containsKey("excludedPackages")) config.put(
+                "excludedPackages",
+                "java/;sun/;javax/;scala/;" + "argo/;org/lwjgl/;org/objectweb/;org/bouncycastle/;com/google/");
         if (!config.containsKey("ignore")) config.put("ignore", ".");
-        if (!config.containsKey("classConstantCalls"))
-            config.put(
-                    "classConstantCalls",
-                    "codechicken/lib/asm/ObfMapping.<init>(Ljava/lang/String;)V,"
-                            + "codechicken/lib/asm/ObfMapping.subclass(Ljava/lang/String;)Lcodechicken/lib/asm/ObfMapping;,"
-                            + "codechicken/lib/asm/ObfMapping.<init>(Lcodechicken/lib/asm/ObfMapping;Ljava/lang/String;)V");
-        if (!config.containsKey("descConstantCalls"))
-            config.put(
-                    "descConstantCalls",
-                    "codechicken/lib/asm/ObfMapping.<init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V,"
-                            + "org/objectweb/asm/MethodVisitor.visitFieldInsn(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V,"
-                            + "org/objectweb/asm/tree/MethodNode.visitFieldInsn(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V,"
-                            + "org/objectweb/asm/MethodVisitor.visitMethodInsn(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V,"
-                            + "org/objectweb/asm/tree/MethodNode.visitMethodInsn(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V,"
-                            + "org/objectweb/asm/tree/MethodInsnNode.<init>(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V,"
-                            + "org/objectweb/asm/tree/FieldInsnNode.<init>(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+        if (!config.containsKey("classConstantCalls")) config.put(
+                "classConstantCalls",
+                "codechicken/lib/asm/ObfMapping.<init>(Ljava/lang/String;)V,"
+                        + "codechicken/lib/asm/ObfMapping.subclass(Ljava/lang/String;)Lcodechicken/lib/asm/ObfMapping;,"
+                        + "codechicken/lib/asm/ObfMapping.<init>(Lcodechicken/lib/asm/ObfMapping;Ljava/lang/String;)V");
+        if (!config.containsKey("descConstantCalls")) config.put(
+                "descConstantCalls",
+                "codechicken/lib/asm/ObfMapping.<init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V,"
+                        + "org/objectweb/asm/MethodVisitor.visitFieldInsn(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V,"
+                        + "org/objectweb/asm/tree/MethodNode.visitFieldInsn(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V,"
+                        + "org/objectweb/asm/MethodVisitor.visitMethodInsn(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V,"
+                        + "org/objectweb/asm/tree/MethodNode.visitMethodInsn(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V,"
+                        + "org/objectweb/asm/tree/MethodInsnNode.<init>(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V,"
+                        + "org/objectweb/asm/tree/FieldInsnNode.<init>(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 
         return config;
     }
@@ -135,9 +135,8 @@ public class ObfuscationRun implements ILogStreams {
     }
 
     public static void processFiles(File dir, Function<File, Void> function, boolean recursive) {
-        for (File file : dir.listFiles())
-            if (file.isDirectory() && recursive) processFiles(file, function, recursive);
-            else function.apply(file);
+        for (File file : dir.listFiles()) if (file.isDirectory() && recursive) processFiles(file, function, recursive);
+        else function.apply(file);
     }
 
     public static void deleteDir(File directory, boolean remove) {
@@ -173,7 +172,7 @@ public class ObfuscationRun implements ILogStreams {
         File fields = new File(mapDir, "fields.csv");
         if (!fields.exists()) throw new RuntimeException("Could not find fields.csv");
 
-        return new File[] {srgs, methods, fields};
+        return new File[] { srgs, methods, fields };
     }
 
     public long startTime() {
@@ -196,8 +195,8 @@ public class ObfuscationRun implements ILogStreams {
 
     public void finish(boolean errored) {
         long millis = System.currentTimeMillis() - startTime;
-        out().println((errored ? "Errored after" : "Done in ") + new DecimalFormat("0.00").format(millis / 1000D)
-                + "s");
+        out().println(
+                (errored ? "Errored after" : "Done in ") + new DecimalFormat("0.00").format(millis / 1000D) + "s");
         finished = true;
     }
 

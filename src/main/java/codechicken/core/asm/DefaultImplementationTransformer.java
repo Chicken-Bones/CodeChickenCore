@@ -1,19 +1,23 @@
 package codechicken.core.asm;
 
-import codechicken.lib.asm.ASMHelper;
-import codechicken.lib.asm.ClassHeirachyManager;
-import codechicken.lib.asm.ObfMapping;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.LaunchClassLoader;
+
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
+import codechicken.lib.asm.ASMHelper;
+import codechicken.lib.asm.ClassHeirachyManager;
+import codechicken.lib.asm.ObfMapping;
+
 public class DefaultImplementationTransformer implements IClassTransformer {
+
     private static LaunchClassLoader cl = (LaunchClassLoader) ClassHeirachyManager.class.getClassLoader();
 
     private static ClassNode getClassNode(String name) {
@@ -25,6 +29,7 @@ public class DefaultImplementationTransformer implements IClassTransformer {
     }
 
     static class InterfaceImpl {
+
         public final String iname;
         public ArrayList<MethodNode> impls = new ArrayList<MethodNode>();
 
@@ -35,11 +40,10 @@ public class DefaultImplementationTransformer implements IClassTransformer {
             for (MethodNode method : inode.methods) names.add(method.name + method.desc);
 
             ClassNode cnode = getClassNode(cname);
-            for (MethodNode method : cnode.methods)
-                if (names.contains(method.name + method.desc)) {
-                    impls.add(method);
-                    method.desc = new ObfMapping(cnode.name, method.name, method.desc).toRuntime().s_desc;
-                }
+            for (MethodNode method : cnode.methods) if (names.contains(method.name + method.desc)) {
+                impls.add(method);
+                method.desc = new ObfMapping(cnode.name, method.name, method.desc).toRuntime().s_desc;
+            }
         }
 
         public boolean patch(ClassNode cnode) {

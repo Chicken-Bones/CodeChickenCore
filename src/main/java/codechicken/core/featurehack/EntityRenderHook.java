@@ -5,7 +5,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class EntityRenderHook extends Entity {
+
     public static interface IRenderCallback {
+
         public void render(float frame, int pass);
 
         public boolean shouldRenderInPass(int pass);

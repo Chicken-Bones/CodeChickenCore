@@ -6,6 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class FeatureHack {
+
     private static boolean updateHookEnabled = false;
     private static boolean renderHookEnabled = false;
 

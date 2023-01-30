@@ -1,5 +1,12 @@
 package codechicken.core.featurehack;
 
+import java.lang.reflect.Field;
+
+import net.minecraft.init.Blocks;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.MinecraftForge;
+
 import codechicken.core.ReflectionManager;
 import codechicken.core.asm.TweakTransformer;
 import codechicken.core.featurehack.mc.TextureLavaFX;
@@ -8,13 +15,9 @@ import codechicken.core.featurehack.mc.TextureWaterFX;
 import codechicken.core.featurehack.mc.TextureWaterFlowFX;
 import codechicken.lib.asm.ObfMapping;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import java.lang.reflect.Field;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.IIcon;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.common.MinecraftForge;
 
 public class LiquidTextures {
+
     public static IIcon[] newTextures = new IIcon[4];
 
     public static boolean replaceLava;
@@ -23,14 +26,10 @@ public class LiquidTextures {
     private static Field field_tex;
 
     public static void init() {
-        replaceWater = TweakTransformer.tweaks
-                .getTag("replaceWaterFX")
-                .setComment("Set this to true to use the pre1.5 water textures")
-                .getBooleanValue(false);
-        replaceLava = TweakTransformer.tweaks
-                .getTag("replaceLavaFX")
-                .setComment("Set this to true to use the pre1.5 lava textures")
-                .getBooleanValue(false);
+        replaceWater = TweakTransformer.tweaks.getTag("replaceWaterFX")
+                .setComment("Set this to true to use the pre1.5 water textures").getBooleanValue(false);
+        replaceLava = TweakTransformer.tweaks.getTag("replaceLavaFX")
+                .setComment("Set this to true to use the pre1.5 lava textures").getBooleanValue(false);
         if (replaceWater) {
             newTextures[0] = new TextureWaterFX().texture;
             newTextures[1] = new TextureWaterFlowFX().texture;

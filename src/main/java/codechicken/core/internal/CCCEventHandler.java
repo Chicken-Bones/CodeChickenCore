@@ -1,5 +1,7 @@
 package codechicken.core.internal;
 
+import net.minecraftforge.client.event.GuiScreenEvent;
+
 import codechicken.core.CCUpdateChecker;
 import codechicken.core.GuiModListScroll;
 import cpw.mods.fml.client.GuiModList;
@@ -8,9 +10,9 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraftforge.client.event.GuiScreenEvent;
 
 public class CCCEventHandler {
+
     public static int renderTime;
     public static float renderFrame;
 

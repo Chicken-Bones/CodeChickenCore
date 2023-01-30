@@ -1,17 +1,21 @@
 package codechicken.core.inventory;
 
-import codechicken.core.gui.GuiWidget;
-import codechicken.core.gui.IGuiActionListener;
-import codechicken.lib.gui.GuiDraw;
 import java.awt.Point;
 import java.util.ArrayList;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import codechicken.core.gui.GuiWidget;
+import codechicken.core.gui.IGuiActionListener;
+import codechicken.lib.gui.GuiDraw;
+
 public class GuiContainerWidget extends GuiContainer implements IGuiActionListener {
+
     public ArrayList<GuiWidget> widgets = new ArrayList<GuiWidget>();
 
     public GuiContainerWidget(Container inventorySlots) {

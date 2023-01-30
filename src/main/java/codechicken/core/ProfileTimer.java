@@ -3,6 +3,7 @@ package codechicken.core;
 import codechicken.core.launch.CodeChickenCorePlugin;
 
 public class ProfileTimer {
+
     public double decay;
     public long startTime;
     public long nanoTime;

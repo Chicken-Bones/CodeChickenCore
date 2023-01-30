@@ -1,10 +1,5 @@
 package codechicken.core;
 
-import codechicken.core.internal.CCCEventHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.network.NetworkManager;
@@ -12,7 +7,14 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
+import codechicken.core.internal.CCCEventHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.ModContainer;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class ClientUtils extends CommonUtils {
+
     private static Minecraft mc() {
         return Minecraft.getMinecraft();
     }
@@ -22,7 +24,7 @@ public class ClientUtils extends CommonUtils {
     }
 
     public static boolean inWorld() // TODO unused
-            {
+    {
         return mc().getNetHandler() != null;
     }
 
@@ -59,8 +61,8 @@ public class ClientUtils extends CommonUtils {
 
     public static void enhanceSupportersList(Object mod) {
         ModContainer mc = FMLCommonHandler.instance().findContainerFor(mod);
-        mc.getMetadata().description =
-                mc.getMetadata().description.replace("Supporters:", EnumChatFormatting.AQUA + "Supporters:");
+        mc.getMetadata().description = mc.getMetadata().description
+                .replace("Supporters:", EnumChatFormatting.AQUA + "Supporters:");
         GuiModListScroll.register(mod);
     }
 }
