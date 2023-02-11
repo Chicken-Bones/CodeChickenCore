@@ -1,0 +1,5 @@
+// Add your dependencies here
+
+dependencies {
+    api('com.github.GTNewHorizons:CodeChickenLib:1.1.6:dev')
+}
