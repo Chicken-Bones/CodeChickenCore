@@ -1,6 +1,7 @@
 package codechicken.core.launch;
 
-import java.awt.*;
+import java.awt.Desktop;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -20,7 +21,11 @@ import javax.swing.event.HyperlinkListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import codechicken.core.asm.*;
+import codechicken.core.asm.CodeChickenCoreModContainer;
+import codechicken.core.asm.DelegatedTransformer;
+import codechicken.core.asm.MCPDeobfuscationTransformer;
+import codechicken.core.asm.Tags;
+import codechicken.core.asm.TweakTransformer;
 import codechicken.lib.config.ConfigTag;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.versioning.DefaultArtifactVersion;

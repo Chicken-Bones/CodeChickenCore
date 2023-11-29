@@ -1,6 +1,6 @@
 package codechicken.core.gui;
 
-import java.awt.*;
+import java.awt.Rectangle;
 
 import org.lwjgl.input.Keyboard;
 

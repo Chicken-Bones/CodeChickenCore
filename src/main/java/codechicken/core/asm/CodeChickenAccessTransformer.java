@@ -3,10 +3,9 @@ package codechicken.core.asm;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
-import codechicken.lib.asm.ObfMapping;
-
 import com.google.common.collect.ImmutableBiMap;
 
+import codechicken.lib.asm.ObfMapping;
 import cpw.mods.fml.common.asm.transformers.AccessTransformer;
 import cpw.mods.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 

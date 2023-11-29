@@ -2,7 +2,11 @@ package codechicken.core.asm;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import net.minecraft.launchwrapper.IClassTransformer;
@@ -16,6 +20,9 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
 import codechicken.lib.asm.ASMHelper;
 import codechicken.lib.asm.ASMInit;
 import codechicken.lib.asm.CC_ClassWriter;
@@ -23,10 +30,6 @@ import codechicken.lib.asm.ObfMapping;
 import codechicken.obfuscator.IHeirachyEvaluator;
 import codechicken.obfuscator.ObfuscationMap.ObfuscationEntry;
 import codechicken.obfuscator.ObfuscationRun;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-
 import cpw.mods.fml.common.asm.transformers.AccessTransformer;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 

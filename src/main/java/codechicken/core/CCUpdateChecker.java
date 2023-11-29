@@ -14,10 +14,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 
-import codechicken.core.launch.CodeChickenCorePlugin;
-
 import com.google.common.base.Function;
 
+import codechicken.core.launch.CodeChickenCorePlugin;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.versioning.ComparableVersion;
 import cpw.mods.fml.relauncher.FMLInjectionData;

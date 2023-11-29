@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import codechicken.lib.asm.ObfMapping;
-
 import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
+
+import codechicken.lib.asm.ObfMapping;
 
 public class ObfuscationMap {
 

@@ -1,6 +1,7 @@
 package codechicken.core.gui;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 
 import codechicken.lib.math.MathHelper;
 import codechicken.lib.vec.Rectangle4i;

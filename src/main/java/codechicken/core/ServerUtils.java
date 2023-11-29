@@ -13,9 +13,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.IChatComponent;
 
-import codechicken.lib.asm.ObfMapping;
-
 import com.mojang.authlib.GameProfile;
+
+import codechicken.lib.asm.ObfMapping;
 
 public class ServerUtils extends CommonUtils {
 

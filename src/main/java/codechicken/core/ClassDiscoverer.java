@@ -13,11 +13,10 @@ import net.minecraft.launchwrapper.Launch;
 
 import org.objectweb.asm.tree.ClassNode;
 
-import codechicken.core.launch.CodeChickenCorePlugin;
-import codechicken.lib.asm.ASMHelper;
-
 import com.google.common.collect.ImmutableList;
 
+import codechicken.core.launch.CodeChickenCorePlugin;
+import codechicken.lib.asm.ASMHelper;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModClassLoader;

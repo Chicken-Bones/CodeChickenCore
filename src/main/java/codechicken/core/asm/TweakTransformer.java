@@ -1,6 +1,6 @@
 package codechicken.core.asm;
 
-import static codechicken.lib.asm.InsnComparator.*;
+import static codechicken.lib.asm.InsnComparator.findOnce;
 
 import java.util.Map;
 
@@ -11,10 +11,14 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import codechicken.lib.asm.*;
+import codechicken.lib.asm.ASMBlock;
+import codechicken.lib.asm.ASMInit;
+import codechicken.lib.asm.ASMReader;
+import codechicken.lib.asm.ModularASMTransformer;
 import codechicken.lib.asm.ModularASMTransformer.MethodReplacer;
 import codechicken.lib.asm.ModularASMTransformer.MethodTransformer;
 import codechicken.lib.asm.ModularASMTransformer.MethodWriter;
+import codechicken.lib.asm.ObfMapping;
 import codechicken.lib.config.ConfigTag;
 
 public class TweakTransformer implements IClassTransformer, Opcodes {

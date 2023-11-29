@@ -1,6 +1,6 @@
 package codechicken.core.asm;
 
-import static org.objectweb.asm.Opcodes.*;
+import static org.objectweb.asm.Opcodes.ASM4;
 
 import java.io.File;
 import java.io.PrintWriter;

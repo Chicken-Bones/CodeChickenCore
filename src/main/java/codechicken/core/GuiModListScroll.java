@@ -1,9 +1,24 @@
 package codechicken.core;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_ALWAYS;
+import static org.lwjgl.opengl.GL11.GL_EQUAL;
+import static org.lwjgl.opengl.GL11.GL_KEEP;
+import static org.lwjgl.opengl.GL11.GL_PACK_ALIGNMENT;
+import static org.lwjgl.opengl.GL11.GL_REPLACE;
+import static org.lwjgl.opengl.GL11.GL_STENCIL_INDEX;
+import static org.lwjgl.opengl.GL11.GL_STENCIL_TEST;
+import static org.lwjgl.opengl.GL11.GL_UNPACK_ALIGNMENT;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.GL_ZERO;
+import static org.lwjgl.opengl.GL11.glColorMask;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glPixelStorei;
 import static org.lwjgl.opengl.GL11.glReadPixels;
+import static org.lwjgl.opengl.GL11.glStencilFunc;
+import static org.lwjgl.opengl.GL11.glStencilOp;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;

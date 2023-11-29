@@ -1,6 +1,7 @@
 package codechicken.obfuscator;
 
-import static org.objectweb.asm.tree.AbstractInsnNode.*;
+import static org.objectweb.asm.tree.AbstractInsnNode.LDC_INSN;
+import static org.objectweb.asm.tree.AbstractInsnNode.METHOD_INSN;
 
 import java.util.LinkedList;
 import java.util.List;
