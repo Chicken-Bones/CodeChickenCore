@@ -1,0 +1,12 @@
+{
+  "modListVersion": 2,
+  "modList": [{
+    "modid": "${modId}",
+    "name": "${modName}",
+    "description": "Base common code for all chickenbones mods. Supporters: JBoyJr",
+    "version": "${modVersion}",
+    "mcversion": "${minecraftVersion}",
+    "url": "http://www.minecraftforum.net/topic/909223",
+    "authorList": ["ChickenBones", "GTNH Team"]
+  }]
+}

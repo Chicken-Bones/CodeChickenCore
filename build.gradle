@@ -1,0 +1,10 @@
+//version: 1707058017
+
+plugins {
+    id 'com.gtnewhorizons.gtnhconvention'
+}
+
+minecraft {
+    //extraRunJvmArguments.add("-Dccc.dev.runtimePublic=true")
+    //extraRunJvmArguments.add("-Dccc.dev.deobfuscate=true")
+}
