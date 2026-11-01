@@ -89,6 +89,22 @@ public class ReflectionManager {
         }
     }
 
+    /**
+     * Set a field of the object {@code instance} of type {@code class1} to {@code value}.
+     *
+     * @deprecated According to {@link Class#getDeclaredFields()}, the array of fields has no defined order, therefore
+     *             selecting a field based on its index will result in JVM-specific behaviour. Use
+     *             {@link #setField(Class, Object, String, Object)} instead.
+     *
+     * @param class1     The class which defines the field in question.
+     * @param instance   The object being altered - must be an instance of {@code class1}
+     * @param fieldindex The index of the field being set.
+     * @param value      The value to set the field to.
+     * @throws IllegalArgumentException If {@code instance} is not an instance of {@code class1}, or if {@code value}
+     *                                  doesn't match the type of the field.
+     * @throws IllegalAccessException   If unable to write to the field.
+     */
+    @Deprecated
     public static void setField(Class<?> class1, Object instance, int fieldindex, Object value)
             throws IllegalArgumentException, IllegalAccessException {
         Field field = class1.getDeclaredFields()[fieldindex];
@@ -179,6 +195,21 @@ public class ReflectionManager {
         return null;
     }
 
+    /**
+     * Get a field of the object {@code instance} of type {@code class1}.
+     *
+     * @deprecated According to {@link Class#getDeclaredFields()}, the array of fields has no defined order, therefore
+     *             selecting a field based on its index will result in JVM-specific behaviour. Use
+     *             {@link #getField(Class, Class, Object, String)} instead.
+     *
+     * @param class1     The class which defines the field in question.
+     * @param fieldType  The type of the field being read.
+     * @param instance   The object being read from - must be an instance of {@code class1}
+     * @param fieldIndex The index of the field being read.
+     * @throws IllegalArgumentException If {@code instance} is not an instance of {@code class1}.
+     * @throws IllegalAccessException   If unable to read from the field.
+     */
+    @Deprecated
     public static <T> T getField(Class<?> class1, Class<T> fieldType, Object instance, int fieldIndex)
             throws IllegalArgumentException, IllegalAccessException {
         Field field = class1.getDeclaredFields()[fieldIndex];
