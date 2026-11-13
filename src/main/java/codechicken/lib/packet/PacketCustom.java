@@ -2,6 +2,7 @@ package codechicken.lib.packet;
 
 import java.util.EnumMap;
 import java.util.List;
+import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
@@ -49,6 +50,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.AttributeKey;
 
 public final class PacketCustom implements MCDataInput, MCDataOutput {
+
+    private static final int MAX_DECOMPRESSED_SIZE = 2 * 1024 * 1024;
 
     public static interface ICustomPacketHandler {
     }
@@ -190,7 +193,7 @@ public final class PacketCustom implements MCDataInput, MCDataOutput {
         byteBuf = payload;
 
         type = byteBuf.readUnsignedByte();
-        if (type > 0x80) decompress();
+        if (type > 0x80) decompressPayload();
         type &= 0x7F;
     }
 
@@ -204,44 +207,61 @@ public final class PacketCustom implements MCDataInput, MCDataOutput {
         byteBuf.writeByte(type);
     }
 
-    /**
-     * Decompresses the remaining ByteBuf (after type has been read) using Snappy
-     */
-    private void decompress() {
+    private void decompressPayload() {
+        if (byteBuf.readableBytes() < 4) throw new IllegalArgumentException("Missing compressed packet length");
+        int declaredLength = byteBuf.readInt();
+        if (declaredLength < 0 || declaredLength > MAX_DECOMPRESSED_SIZE)
+            throw new IllegalArgumentException("Invalid decompressed packet length: " + declaredLength);
+
         Inflater inflater = new Inflater();
+        ByteBuf decodedPayload = null;
         try {
-            int len = byteBuf.readInt();
-            ByteBuf out = Unpooled.buffer(len);
-            inflater.setInput(byteBuf.array(), byteBuf.readerIndex(), byteBuf.readableBytes());
-            inflater.inflate(out.array());
-            out.writerIndex(len);
-            byteBuf = out;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            byte[] compressedInput = new byte[byteBuf.readableBytes()];
+            byteBuf.readBytes(compressedInput);
+            inflater.setInput(compressedInput);
+            decodedPayload = Unpooled.buffer(Math.min(declaredLength, 8192), declaredLength);
+            byte[] inflatedChunk = new byte[Math.min(declaredLength + 1, 8192)];
+            while (!inflater.finished()) {
+                int inflatedBytes = inflater.inflate(inflatedChunk);
+                if (inflatedBytes > declaredLength - decodedPayload.writerIndex())
+                    throw new IllegalArgumentException("Decompressed packet exceeds declared length");
+                if (inflatedBytes == 0 && !inflater.finished())
+                    throw new IllegalArgumentException("Incomplete or dictionary-dependent compressed packet");
+                decodedPayload.writeBytes(inflatedChunk, 0, inflatedBytes);
+            }
+            if (decodedPayload.writerIndex() != declaredLength || inflater.getRemaining() != 0)
+                throw new IllegalArgumentException(
+                        "Compressed packet does not match declared length or has trailing data");
+            byteBuf = decodedPayload;
+            decodedPayload = null;
+        } catch (DataFormatException e) {
+            throw new IllegalArgumentException("Invalid compressed packet", e);
         } finally {
+            if (decodedPayload != null) decodedPayload.release();
             inflater.end();
         }
     }
 
-    /**
-     * Compresses the payload ByteBuf after the type byte
-     */
-    private void do_compress() {
+    private void compressPayload() {
+        if ((byteBuf.getUnsignedByte(0) & 0x80) != 0) return;
+
+        int payloadLength = byteBuf.writerIndex() - 1;
+        if (payloadLength > MAX_DECOMPRESSED_SIZE)
+            throw new IllegalArgumentException("Packet payload exceeds 2 MiB decompressed limit: " + payloadLength);
+
         Deflater deflater = new Deflater();
         try {
             byteBuf.readerIndex(1);
-            int len = byteBuf.readableBytes();
-            deflater.setInput(byteBuf.array(), byteBuf.readerIndex(), len);
+            deflater.setInput(byteBuf.array(), byteBuf.readerIndex(), payloadLength);
             deflater.finish();
-            ByteBuf out = Unpooled.buffer(len + 5);
-            int clen = deflater.deflate(out.array(), 5, len);
-            if (clen >= len - 5 || !deflater.finished()) // not worth compressing, gets larger
-                return;
+            ByteBuf compressedPayload = Unpooled.buffer(payloadLength + 5);
+            int compressedLength = deflater.deflate(compressedPayload.array(), 5, payloadLength);
+            if (compressedLength >= payloadLength - 5 || !deflater.finished()) return;
 
-            out.setByte(0, type | 0x80);
-            out.setInt(1, len);
-            out.writerIndex(clen + 5);
-            byteBuf = out;
+            compressedPayload.setByte(0, type | 0x80);
+            compressedPayload.setInt(1, payloadLength);
+            compressedPayload.writerIndex(compressedLength + 5);
+            byteBuf = compressedPayload;
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
@@ -474,7 +494,7 @@ public final class PacketCustom implements MCDataInput, MCDataOutput {
     public FMLProxyPacket toPacket() {
         if (incoming()) throw new IllegalStateException("Tried to write an incoming packet");
 
-        if (byteBuf.readableBytes() > 32000 || (type & 0x80) != 0) do_compress();
+        if (byteBuf.readableBytes() > 32000 || (type & 0x80) != 0) compressPayload();
 
         // FML packet impl returns the whole of the backing array, copy used portion of array to another ByteBuf
         return new FMLProxyPacket(byteBuf.copy(), channel);
